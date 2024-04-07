@@ -1,0 +1,62 @@
+.default-btn {
+    margin: 1.5rem 0;
+    padding: 1.3rem 2rem;
+}
+
+.images {
+    gap: 2.5rem;
+}
+
+main {
+    gap: 3rem;
+}
+
+.nav-avatar {
+    border: 2px solid #121212;
+    border-radius: 50%;
+}
+
+.manage-text {
+    display: none;
+}
+
+.avatar-img-admin {
+    width: 2.2rem;
+}
+
+.avatar-settings {
+    width: 14.5rem;
+}
+
+.user-info {
+    justify-content: space-between;
+}
+
+.user-info > .session-details {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-info > .user-img {
+    width: 25%;
+}
+
+.user-info > .small-btn {
+    width: 35%;
+}
+
+main > .history {
+    padding: 1.2rem 0.6rem;
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .manage-text {
+        display: block;
+    }
+
+    .body-nav > main {
+        height: 80vh;
+        gap: 10rem;
+    }
+}

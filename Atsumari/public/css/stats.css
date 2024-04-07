@@ -1,0 +1,130 @@
+.stats-container {
+    width: 100%;
+    gap: 1.6rem;
+    color: #FFF8E1;
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.chart-container {
+    width: 100%;
+    border-radius: 1rem;
+    background: #FF8C42;
+    height: 12rem;
+    padding: 0.8rem;
+}
+
+.chart {
+    width: 100%;
+}
+
+.chart > canvas {
+    max-height: 10rem;
+    height: auto !important;
+    width: 100% !important;
+}
+
+.stats-general {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.stats-general > div {
+    border-radius: 1rem;
+    width: 45%;
+    height: 10rem;
+    background: #FF8C42;
+    padding: 0.9rem 1.5rem;
+    text-align: center;
+}
+
+.stats-general > div > p {
+    font-size: 0.8rem;
+}
+
+.stats-general > div > p > span {
+    display: block;
+    margin: 1rem 0;
+    color: #BC4B51;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.44);
+    font-family: Inter;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.fa-chart-column {
+    color: #121212;
+}
+
+#myChart2 {
+    height: 15rem;
+}
+
+@media (min-width: 600px) {
+    .fa-chart-column::after {
+        color: #121212;
+    }
+
+    h1 {
+        width: 100%;
+        font-size: 2.25rem;
+    }
+
+    .body-nav > main {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-areas:
+            "all-time stats-general"
+            "last-year last-year";
+        row-gap: 3rem;
+        column-gap: 3.6rem;
+        width: 100%;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-rows: repeat(2, 50%);
+    }
+
+    .all-time {
+        grid-area: all-time;
+        height: 100%;
+        font-size: 1.3rem;
+    }
+
+    .stats-general {
+        grid-area: stats-general;
+        height: 100%;
+    }
+
+    .stats-general > div {
+        height: 100%;
+    }
+
+    .stats-general > div > p {
+        font-size: 1.5rem;
+    }
+
+    .stats-general > div > p > span {
+        font-size: 5rem;
+    }
+
+    .last-year {
+        grid-area: last-year;
+        height: 100%;
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 800px) {
+    .stats-general > div > p {
+        font-size: 1rem;
+    }
+
+    .stats-general > div > p > span {
+        font-size: 3.5rem;
+    }
+}

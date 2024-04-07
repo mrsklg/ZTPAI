@@ -1,0 +1,78 @@
+.dashboard-main {
+    display: block;
+    gap: 4rem;
+}
+
+a.current-book {
+    width: 100%;
+}
+
+.tile-container {
+    margin-top: 2rem;
+    gap: calc(0.1 * 100vw);
+}
+
+.dashboard-tile {
+    width: 100%;
+    height: 10rem;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    border-radius: 1rem;
+}
+
+.dashboard-tile > img {
+    width: 100%;
+    align-self: center;
+}
+
+.dashboard-tile > h2 {
+    color: #FFF8E1;
+    font-family: Inter;
+    font-size: 1.2rem;
+    font-weight: 600;
+    position: absolute;
+    left: 1.1rem;
+    bottom: 1.1rem;
+    margin: 0;
+    text-shadow: 0.03em 0 #454545,
+    0 0.03em #454545,
+    -0.03em 0 #454545,
+    0 -0.03em #454545,
+    -0.03em -0.03em #454545,
+    -0.03em 0.03em #454545,
+    0.03em -0.03em #454545,
+    0.03em 0.03em #454545;
+}
+
+.fa-house {
+    color: #121212;
+}
+
+@media (min-width: 600px) {
+    .dashboard-tile {
+        height: calc(0.15 * 100vw);
+        max-height: 18rem;
+    }
+
+    .tile-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 5rem;
+    }
+
+    .fa-house::after {
+        color: #121212;
+    }
+
+    h1::before {
+        content: '';
+        display: block;
+        height: 6rem;
+        background-image: url(../images/Atsumari.png);
+        background-repeat: no-repeat;
+        background-size: 22rem;
+        margin-bottom: 4rem;
+    }
+}

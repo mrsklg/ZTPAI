@@ -1,0 +1,176 @@
+.book-info-container {
+    justify-content: space-between;
+    height: calc(0.3 * 100vh);
+}
+
+.reading-summary,
+.history,
+.book-info-container {
+    width: 100%;
+}
+
+.reading-progess {
+    height: 100%;
+    width: 50%;
+    gap: 0.6rem;
+    padding: 1.3rem 0.6rem;
+    text-align: center;
+    border-radius: 1rem;
+    background: #F9C784;
+}
+
+.bar,
+.progress-bar {
+    border-radius: 0.75rem;
+    height: 1rem;
+}
+
+.bar {
+    width: 100%;
+    background: #898989;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 50%;
+    background: #BC4B51;
+}
+
+.progress-data {
+    justify-content: space-around;
+    width: 100%;
+    gap: 5%;
+}
+
+.reading-summary {
+    border-radius: 1rem;
+    background: #F9C784;
+    padding: 0.4rem 0.8rem;
+    align-items: flex-start;
+    gap: 1rem;
+    font-family: "Inter", sans-serif;
+}
+
+.reading-summary > p > span {
+    color: #343434;
+    font-weight: 600;
+}
+
+.fa-book {
+    color: #121212;
+}
+
+main.no-book {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+h1.no-book {
+    max-width: unset;
+}
+
+p.no-book > a {
+    text-decoration: underline;
+}
+
+p.no-book > a:hover {
+    color: #010101;
+    font-weight: 600;
+}
+
+.hide {
+    display: none;
+}
+
+.history-popup {
+    width: 90%;
+    position: absolute;
+    max-width: 30rem;
+    height: fit-content;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    box-shadow: 0 0 4rem #454545;
+    max-height: 34rem;
+    overflow: scroll;
+    align-items: unset;
+    justify-content: unset;
+    text-align: center;
+}
+
+.history-popup::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 400px) {
+    .book-info-container {
+        flex-direction: column;
+        width: 100%;
+        height: calc(0.5 * 100vh);
+        gap: 0.5rem;
+    }
+
+    .bookcover,
+    .reading-progess {
+        width: 100%;
+    }
+
+    .cover-img {
+        height: auto;
+    }
+}
+
+@media (min-width: 600px) {
+    .fa-book::after {
+        color: #121212;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-areas:
+            "title book-info"
+            "history book-info"
+            "history stats";
+        row-gap: 3.8rem;
+        column-gap: 3.6rem;
+        width: 100%;
+        grid-template-columns: repeat(2, 50%);
+    }
+
+    h1 {
+        grid-area: title;
+        font-size: 2.25rem;
+    }
+
+    .reading-progess > h3 {
+        font-size: 1.2rem;
+    }
+
+    .bar,
+    .progress-bar {
+        border-radius: 1rem;
+        height: 1.5rem;
+    }
+
+    .progress-data > p {
+        font-size: 1.4rem;
+    }
+
+    .book-info-container {
+        grid-area: book-info;
+        height: calc(0.2 * 100vw)
+    }
+
+    .reading-summary {
+        grid-area: stats;
+        font-size: 1.5rem;
+        padding: 1.3rem;
+        gap: 1.6rem;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .book-info-container {
+        height: calc(0.35 * 100vw);
+    }
+}
