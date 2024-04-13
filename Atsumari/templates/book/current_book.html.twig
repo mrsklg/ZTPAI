@@ -1,141 +1,252 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Karla:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+{% extends 'base.html.twig' %}
+
+{% block title %}Current book{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/current_book.css') }}">
-    <script src="https://kit.fontawesome.com/0d4592f9a9.js" crossorigin="anonymous"></script>
-    <title>Current book</title>
-</head>
-<body class="flex-row-center-center body-nav">
-{% if book %}
-    <main class="flex-column-space-around-center main-grid">
-        <h1>You are currently reading: {{ book.title }}</h1>
-        <div class="book-info-container flex-row-center-center">
-            <div class="bookcover flex-row-center-center">
-                <img src="{{ book.coverUrl }}" class="cover-img" alt="bookcover">
-            </div>
-            <div class="reading-progess flex-column-space-around-center">
-                <h3>Your reading progress</h3>
-                <div class="bar">
-                    <div class="progress-bar" style="width: 10%; border-radius: 2rem;"></div>
+{% endblock %}
+
+{% block body_class %}flex-row-center-center body-nav{% endblock %}
+
+{% block content %}
+    {% if book %}
+        <main class="flex-column-space-around-center main-grid">
+            <h1>You are currently reading: {{ book.title }}</h1>
+            <div class="book-info-container flex-row-center-center">
+                <div class="bookcover flex-row-center-center">
+                    <img src="{{ book.coverUrl }}" class="cover-img" alt="bookcover">
                 </div>
-                <div class="progress-data flex-row-center-center">
-                    <p>10%</p>
-                    <p>20/200</p>
+                <div class="reading-progess flex-column-space-around-center">
+                    <h3>Your reading progress</h3>
+                    <div class="bar">
+                        <div class="progress-bar" style="width: 10%; border-radius: 2rem;"></div>
+                    </div>
+                    <div class="progress-data flex-row-center-center">
+                        <p>10%</p>
+                        <p>20/200</p>
+                    </div>
+                    <a href="{{ path('reading_session', {'id': book.id}) }}" class="small-btn">Continue reading</a>
                 </div>
-                <a href="{{ path('reading_session', {'id': book.id}) }}" class="small-btn">Continue reading</a>
             </div>
-        </div>
-        <div class="reading-summary flex-column-space-around-center">
-            <p>Your reading time:
-                <span>
-                    {% set totalReadingTime = 3650 %}
-                    {% set hours = totalReadingTime // 3600 %}
-                    {% set minutes = (totalReadingTime % 3600) // 60 %}
+            <div class="reading-summary flex-column-space-around-center">
+                <p>Your reading time:
+                    <span>
+                        {% set totalReadingTime = 3650 %}
+                        {% set hours = totalReadingTime // 3600 %}
+                        {% set minutes = (totalReadingTime % 3600) // 60 %}
 
-                    {{ hours }}h {{ minutes }}min
-                </span>
-            </p>
-            <p>Your reading speed:
-                <span>1 page/min</span>
-            </p>
-            <p>Number of reading sessions:
-                <span>2</span>
-            </p>
-            <p>Reading the same you’ll finish in:
-                <span>
-                    {% set totalPages = 200 %}
-                    {% set currentPage = 20 %}
-                    {% set remainingPages = max(0, totalPages - currentPage) %}
+                        {{ hours }}h {{ minutes }}min
+                    </span>
+                </p>
+                <p>Your reading speed:
+                    <span>1 page/min</span>
+                </p>
+                <p>Number of reading sessions:
+                    <span>2</span>
+                </p>
+                <p>Reading the same you’ll finish in:
+                    <span>
+                        {% set totalPages = 200 %}
+                        {% set currentPage = 20 %}
+                        {% set remainingPages = max(0, totalPages - currentPage) %}
 
-                    {% if 1 > 0 %}
-                        {% set remainingTime = ((remainingPages / 1 // 1)) %}
-                        {% set remainingHours = remainingTime // 60 %}
-                        {% set remainingMinutes = remainingTime % 60 %}
+                        {% if 1 > 0 %}
+                            {% set remainingTime = ((remainingPages / 1 // 1)) %}
+                            {% set remainingHours = remainingTime // 60 %}
+                            {% set remainingMinutes = remainingTime % 60 %}
 
-                        {{ remainingHours }}h {{ remainingMinutes }}min
-                    {% else %}
-                        Unable to calculate remaining time (reading speed is zero)
+                            {{ remainingHours }}h {{ remainingMinutes }}min
+                        {% else %}
+                            Unable to calculate remaining time (reading speed is zero)
+                        {% endif %}
+                    </span>
+                </p>
+            </div>
+            <div class="history flex-column-space-around-center">
+                <h4>History of reading sessions:</h4>
+                {% for x in 0..1 %}
+                    {% if reading_sessions[x] is not null %}
+                        <div class="session-info flex-column-space-around-center">
+                            <div class="flex-column-space-around-center session-details">
+                                <p>{{ reading_sessions[x].startDate | split(' ')[0] }}</p>
+                                <p>{{ reading_sessions[x].startDate | split(' ')[1][:5] }} - {{ reading_sessions[x].endDate | split(' ')[1][:5] }}</p>
+                            </div>
+                            <div class="flex-column-space-around-center session-details">
+                                <p class="dark">{{ (reading_sessions[x].duration / 60) | round(0) }} minutes</p>
+                                <p class="dark">{{ reading_sessions[x].pagesRead }} pages</p>
+                            </div>
+                        </div>
                     {% endif %}
-                </span>
-            </p>
-        </div>
-        <div class="history flex-column-space-around-center">
-            <h4>History of reading sessions:</h4>
-            {% for x in 0..1 %}
-                {% if reading_sessions[x] is not null %}
+                {% endfor %}
+
+                <button class="small-btn">See history</button>
+            </div>
+
+            <div class="history flex-column-space-around-center hide history-popup">
+                <h4>History of reading sessions:</h4>
+                {% for reading_session in reading_sessions %}
                     <div class="session-info flex-column-space-around-center">
                         <div class="flex-column-space-around-center session-details">
-                            <p>{{ reading_sessions[x].startDate | split(' ')[0] }}</p>
-                            <p>{{ reading_sessions[x].startDate | split(' ')[1][:5] }} - {{ reading_sessions[x].endDate | split(' ')[1][:5] }}</p>
+                            <p>{{ reading_session.startDate | split(' ')[0] }}</p>
+                            <p>{{ reading_session.startDate | split(' ')[1][:5] }} - {{ reading_session.endDate | split(' ')[1][:5] }}</p>
                         </div>
                         <div class="flex-column-space-around-center session-details">
-                            <p class="dark">{{ (reading_sessions[x].duration / 60) | round(0) }} minutes</p>
-                            <p class="dark">{{ reading_sessions[x].pagesRead }} pages</p>
+                            <p class="dark">{{ (reading_session.duration / 60) | round(0) }} minutes</p>
+                            <p class="dark">{{ reading_session.pagesRead }} pages</p>
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+                <button class="small-btn">Close</button>
+            </div>
+        </main>
+    {% else %}
+        <main class="flex-row-center-center no-book">
+            <h1 class="no-book">You are not reading any book</h1>
+            <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>
+        </main>
+    {% endif %}
+{% endblock %}
 
-            <button class="small-btn">See history</button>
-        </div>
 
-        <div class="history flex-column-space-around-center hide history-popup">
-            <h4>History of reading sessions:</h4>
-            {% for reading_session in reading_sessions %}
-                <div class="session-info flex-column-space-around-center">
-                    <div class="flex-column-space-around-center session-details">
-                        <p>{{ reading_session.startDate | split(' ')[0] }}</p>
-                        <p>{{ reading_session.startDate | split(' ')[1][:5] }} - {{ reading_session.endDate | split(' ')[1][:5] }}</p>
-                    </div>
-                    <div class="flex-column-space-around-center session-details">
-                        <p class="dark">{{ (reading_session.duration / 60) | round(0) }} minutes</p>
-                        <p class="dark">{{ reading_session.pagesRead }} pages</p>
-                    </div>
-                </div>
-            {% endfor %}
-            <button class="small-btn">Close</button>
-        </div>
-    </main>
-{% else %}
-    <main class="flex-row-center-center no-book">
-        <h1 class="no-book">You are not reading any book</h1>
-        <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>
-    </main>
-{% endif %}
-<nav class="flex-row-center-center navbar">
-    <ul class="flex-row-center-center nav-list">
-        <li>
-            <a href="{{ path('dashboard') }}">
-                <i class="fa-solid fa-house fa-2x"></i>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('current_book') }}">
-                <i class="fa-solid fa-book fa-2x"></i>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('collection') }}">
-                <i class="fa-solid fa-box fa-2x"></i>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('stats') }}">
-                <i class="fa-solid fa-chart-column fa-2x"></i>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('settings') }}" class="nav-avatar">
-                <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">
-            </a>
-        </li>
-    </ul>
-</nav>
-</body>
-</html>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <link rel="preconnect" href="https://fonts.googleapis.com">#}
+{#    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>#}
+{#    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Karla:wght@500;700&display=swap" rel="stylesheet">#}
+{#    <link rel="stylesheet" href="{{ asset('css/global.css') }}">#}
+{#    <link rel="stylesheet" href="{{ asset('css/current_book.css') }}">#}
+{#    <script src="https://kit.fontawesome.com/0d4592f9a9.js" crossorigin="anonymous"></script>#}
+{#    <title>Current book</title>#}
+{#</head>#}
+{#<body class="flex-row-center-center body-nav">#}
+{#{% if book %}#}
+{#    <main class="flex-column-space-around-center main-grid">#}
+{#        <h1>You are currently reading: {{ book.title }}</h1>#}
+{#        <div class="book-info-container flex-row-center-center">#}
+{#            <div class="bookcover flex-row-center-center">#}
+{#                <img src="{{ book.coverUrl }}" class="cover-img" alt="bookcover">#}
+{#            </div>#}
+{#            <div class="reading-progess flex-column-space-around-center">#}
+{#                <h3>Your reading progress</h3>#}
+{#                <div class="bar">#}
+{#                    <div class="progress-bar" style="width: 10%; border-radius: 2rem;"></div>#}
+{#                </div>#}
+{#                <div class="progress-data flex-row-center-center">#}
+{#                    <p>10%</p>#}
+{#                    <p>20/200</p>#}
+{#                </div>#}
+{#                <a href="{{ path('reading_session', {'id': book.id}) }}" class="small-btn">Continue reading</a>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="reading-summary flex-column-space-around-center">#}
+{#            <p>Your reading time:#}
+{#                <span>#}
+{#                    {% set totalReadingTime = 3650 %}#}
+{#                    {% set hours = totalReadingTime // 3600 %}#}
+{#                    {% set minutes = (totalReadingTime % 3600) // 60 %}#}
+
+{#                    {{ hours }}h {{ minutes }}min#}
+{#                </span>#}
+{#            </p>#}
+{#            <p>Your reading speed:#}
+{#                <span>1 page/min</span>#}
+{#            </p>#}
+{#            <p>Number of reading sessions:#}
+{#                <span>2</span>#}
+{#            </p>#}
+{#            <p>Reading the same you’ll finish in:#}
+{#                <span>#}
+{#                    {% set totalPages = 200 %}#}
+{#                    {% set currentPage = 20 %}#}
+{#                    {% set remainingPages = max(0, totalPages - currentPage) %}#}
+
+{#                    {% if 1 > 0 %}#}
+{#                        {% set remainingTime = ((remainingPages / 1 // 1)) %}#}
+{#                        {% set remainingHours = remainingTime // 60 %}#}
+{#                        {% set remainingMinutes = remainingTime % 60 %}#}
+
+{#                        {{ remainingHours }}h {{ remainingMinutes }}min#}
+{#                    {% else %}#}
+{#                        Unable to calculate remaining time (reading speed is zero)#}
+{#                    {% endif %}#}
+{#                </span>#}
+{#            </p>#}
+{#        </div>#}
+{#        <div class="history flex-column-space-around-center">#}
+{#            <h4>History of reading sessions:</h4>#}
+{#            {% for x in 0..1 %}#}
+{#                {% if reading_sessions[x] is not null %}#}
+{#                    <div class="session-info flex-column-space-around-center">#}
+{#                        <div class="flex-column-space-around-center session-details">#}
+{#                            <p>{{ reading_sessions[x].startDate | split(' ')[0] }}</p>#}
+{#                            <p>{{ reading_sessions[x].startDate | split(' ')[1][:5] }} - {{ reading_sessions[x].endDate | split(' ')[1][:5] }}</p>#}
+{#                        </div>#}
+{#                        <div class="flex-column-space-around-center session-details">#}
+{#                            <p class="dark">{{ (reading_sessions[x].duration / 60) | round(0) }} minutes</p>#}
+{#                            <p class="dark">{{ reading_sessions[x].pagesRead }} pages</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+
+{#            <button class="small-btn">See history</button>#}
+{#        </div>#}
+
+{#        <div class="history flex-column-space-around-center hide history-popup">#}
+{#            <h4>History of reading sessions:</h4>#}
+{#            {% for reading_session in reading_sessions %}#}
+{#                <div class="session-info flex-column-space-around-center">#}
+{#                    <div class="flex-column-space-around-center session-details">#}
+{#                        <p>{{ reading_session.startDate | split(' ')[0] }}</p>#}
+{#                        <p>{{ reading_session.startDate | split(' ')[1][:5] }} - {{ reading_session.endDate | split(' ')[1][:5] }}</p>#}
+{#                    </div>#}
+{#                    <div class="flex-column-space-around-center session-details">#}
+{#                        <p class="dark">{{ (reading_session.duration / 60) | round(0) }} minutes</p>#}
+{#                        <p class="dark">{{ reading_session.pagesRead }} pages</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#            <button class="small-btn">Close</button>#}
+{#        </div>#}
+{#    </main>#}
+{#{% else %}#}
+{#    <main class="flex-row-center-center no-book">#}
+{#        <h1 class="no-book">You are not reading any book</h1>#}
+{#        <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>#}
+{#    </main>#}
+{#{% endif %}#}
+{#<nav class="flex-row-center-center navbar">#}
+{#    <ul class="flex-row-center-center nav-list">#}
+{#        <li>#}
+{#            <a href="{{ path('dashboard') }}">#}
+{#                <i class="fa-solid fa-house fa-2x"></i>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="{{ path('current_book') }}">#}
+{#                <i class="fa-solid fa-book fa-2x"></i>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="{{ path('collection') }}">#}
+{#                <i class="fa-solid fa-box fa-2x"></i>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="{{ path('stats') }}">#}
+{#                <i class="fa-solid fa-chart-column fa-2x"></i>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="{{ path('settings') }}" class="nav-avatar">#}
+{#                <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">#}
+{#            </a>#}
+{#        </li>#}
+{#    </ul>#}
+{#</nav>#}
+{#</body>#}
+{#</html>#}

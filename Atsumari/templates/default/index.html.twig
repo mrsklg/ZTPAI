@@ -1,23 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Karla:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+{% extends 'base.html.twig' %}
+
+{% block title %}Atsumari{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/start_screen.css') }}">
-    <title>Atsumari</title>
-</head>
-<body class="flex-row-center-center">
-<main class="flex-column-space-around-center">
-    <img src="{{ asset('images/Atsumari.png') }}">
-    <p class="description">Have you lost track of your reading record? Do you want to know your reading speed? Do you want to manage your bookshelf?
-        <br><br>With Atsumari it is easy. Create your account and start managing your books today!</p>
-    <a class="default-btn" href="{{ path('signup') }}">Create account</a>
-    <p class="comment">...or <a href="{{ path('login') }}" class="popup-cancel-btn">Log In</a></p>
-</main>
-</body>
-</html>
+{% endblock %}
+
+{% block body_class %}flex-row-center-center{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+    <main class="flex-column-space-around-center">
+        <img src="{{ asset('images/Atsumari.png') }}">
+        <p class="description">Have you lost track of your reading record? Do you want to know your reading speed? Do you want to manage your bookshelf?
+            <br><br>With Atsumari it is easy. Create your account and start managing your books today!</p>
+        <a class="default-btn" href="{{ path('signup') }}">Create account</a>
+        <p class="comment">...or <a href="{{ path('login') }}" class="popup-cancel-btn">Log In</a></p>
+    </main>
+{% endblock %}
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <link rel="preconnect" href="https://fonts.googleapis.com">#}
+{#    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>#}
+{#    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Karla:wght@500;700&display=swap" rel="stylesheet">#}
+{#    <link rel="stylesheet" href="{{ asset('css/global.css') }}">#}
+{#    <link rel="stylesheet" href="{{ asset('css/start_screen.css') }}">#}
+{#    <title>Atsumari</title>#}
+{#</head>#}
+{#<body class="flex-row-center-center">#}
+{#<main class="flex-column-space-around-center">#}
+{#    <img src="{{ asset('images/Atsumari.png') }}">#}
+{#    <p class="description">Have you lost track of your reading record? Do you want to know your reading speed? Do you want to manage your bookshelf?#}
+{#        <br><br>With Atsumari it is easy. Create your account and start managing your books today!</p>#}
+{#    <a class="default-btn" href="{{ path('signup') }}">Create account</a>#}
+{#    <p class="comment">...or <a href="{{ path('login') }}" class="popup-cancel-btn">Log In</a></p>#}
+{#</main>#}
+{#</body>#}
+{#</html>#}
 

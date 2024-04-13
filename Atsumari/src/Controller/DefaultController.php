@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DefaultController extends AbstractController
 {
-    private $isAdmin = false;
+    private $isAdmin = true;
     private $users = [
         [
             'firstName' => 'Jane',
