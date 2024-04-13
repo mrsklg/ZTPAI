@@ -12,12 +12,12 @@
 {% block content %}
     <main class="flex-column-space-around-center">
         <div class="flex-column-space-around-center images">
-            <img src="{{ asset('images/Atsumari.png') }}">
-            <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings">
+            <img src="{{ asset('images/Atsumari.png') }}" alt="Atsumari logo">
+            <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings" alt="avatar image">
         </div>
         <div class="form-container">
             <h2 class="manage-text">Manage Your Account</h2>
-            <form method="post">
+            <form method="POST" action={{ path('logout') }}>
                 <button class="default-btn">Delete account</button>
                 <button class="default-btn" type="submit" name="logout">Logout</button>
             </form>

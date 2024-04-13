@@ -14,12 +14,12 @@
     <main class="flex-column-space-around-center">
         <div class="basic-settings flex-column-space-around-center">
             <div class="flex-column-space-around-center images">
-                <img class="logo" src="{{ asset('images/Atsumari.png') }}">
-                <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings">
+                <img class="logo" src="{{ asset('images/Atsumari.png') }}" alt="Atsumari logo">
+                <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings" alt="avatar image">
             </div>
             <div class="form-container">
                 <h2 class="manage-text">Manage Your Account</h2>
-                <form method="post">
+                <form method="POST" action={{ path('logout') }}>
                     <button class="default-btn">Delete account</button>
                     <button class="default-btn" type="submit" name="logout">Logout</button>
                 </form>
@@ -30,7 +30,7 @@
             {% for user in users %}
                 <div class="session-info flex-row-center-center user-info">
                     <div class="flex-column-space-around-center session-details user-img">
-                        <img class="avatar-img-admin" src="{{ asset('images/avatar-img.png') }}">
+                        <img class="avatar-img-admin" src="{{ asset('images/avatar-img.png') }}" alt="avatar image">
                     </div>
                     <div class="flex-column-space-around-center session-details">
                         <p class="dark">{{ user.firstName }} {{ user.lastName }}</p>
