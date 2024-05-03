@@ -2,12 +2,85 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use App\Controller\BookApiController;
+use App\Controller\BookController;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    normalizationContext: [
+        'groups' => ['book:read']
+    ],
+    denormalizationContext: [
+        'groups' => ['book:write']
+    ]
+)]
+#[Post(
+    uriTemplate: '/add_book_to_db',
+    controller: BookApiController::class,
+    denormalizationContext: [
+        'groups' => ['book:write']
+    ])]
+#[Delete(
+    uriTemplate: '/api/remove_book/{book_id}/user/{user_id}',
+    uriVariables: [
+        'book_id' => new Link(
+            fromClass: Book::class
+        ),
+        'user_id' => new Link(
+            fromProperty: 'books',
+            fromClass: User::class
+        )
+    ],
+    controller: BookApiController::class
+)]
+#[ApiResource(
+    uriTemplate: '/users/{user_id}/books',
+    operations: [new GetCollection()],
+    uriVariables: [
+        'user_id' => new Link(
+            fromProperty: 'books',
+            fromClass: User::class
+        )
+    ],
+    normalizationContext: [
+        'groups' => 'user:read'
+    ]
+)]
+#[ApiResource(
+    uriTemplate: '/users/{user_id}/books/{book_id}',
+    operations: [new Get()],
+    uriVariables: [
+        'user_id' => new Link(
+            fromProperty: 'books',
+            fromClass: User::class
+        ),
+        'book_id' => new Link(
+            fromClass: Book::class
+        )
+    ],
+    normalizationContext: [
+        'groups' => 'user:read'
+    ]
+)]
+#[UniqueEntity(fields: ['title'], message: "There is already a book with this title")]
 class Book
 {
     #[ORM\Id]
@@ -16,24 +89,33 @@ class Book
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
+    #[Assert\NotBlank]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(1)]
     private ?int $num_of_pages = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
     private ?string $cover_url = null;
 
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'books', cascade: ['persist'])]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
     private Collection $genres;
 
     /**
      * @var Collection<int, Author>
      */
-    #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books', cascade: ['persist'])]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
+    #[Assert\Valid]
     private Collection $authors;
 
     /**
@@ -45,7 +127,8 @@ class Book
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'books', cascade: ['persist'])]
+    #[Groups(['book:read'])]
     private Collection $users;
 
     /**

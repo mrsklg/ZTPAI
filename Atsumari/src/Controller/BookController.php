@@ -2,10 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
+use App\Entity\Author;
+use App\Entity\Genre;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
+#[AsController]
 class BookController extends AbstractController
 {
     private $books;
@@ -47,6 +59,7 @@ class BookController extends AbstractController
         ];
         $this->currentBook = $this->books[1];
     }
+
     #[Route('/books', name: 'collection')]
     public function collection(): Response
     {

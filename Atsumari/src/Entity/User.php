@@ -2,13 +2,42 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Tests\Fixtures\Metadata\Get;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Patch(
+            denormalizationContext: [
+                'groups' => ['user:write:patch']
+            ]
+        ),
+        new Delete()
+    ],
+    normalizationContext: [
+        'groups' => ['user:read'],
+    ],
+    denormalizationContext: [
+        'groups' => ['user:write'],
+    ]
+)]
+#[UniqueEntity(fields: ['email'], message: "There is already an account with this email")]
 class User
 {
     #[ORM\Id]
@@ -16,18 +45,26 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(groups: ['user:write'])]
+    #[Groups(['user:read', 'user:write'])]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Groups(['user:read', 'user:write', 'user:write:patch'])]
     private ?string $password = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Valid]
+    #[Groups(['user:read', 'user:write'])]
     private ?UserDetails $id_user_details = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['user:read', 'user:write'])]
     private ?UserType $user_type_id = null;
 
     /**
@@ -39,7 +76,8 @@ class User
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'users', cascade: ['persist'])]
+    #[Groups(['user:read'])]
     private Collection $books;
 
     /**

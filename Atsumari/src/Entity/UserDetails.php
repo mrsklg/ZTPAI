@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserDetailsRepository::class)]
+#[UniqueEntity(fields: ['first_name', 'last_name'])]
 class UserDetails
 {
     #[ORM\Id]
@@ -14,9 +18,12 @@ class UserDetails
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user:write','user:read'])]
+    #[Assert\NotBlank()]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user:write','user:read'])]
     private ?string $last_name = null;
 
     public function getId(): ?int

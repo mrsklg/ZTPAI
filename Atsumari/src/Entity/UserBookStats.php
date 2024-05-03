@@ -119,8 +119,10 @@ class UserBookStats
         return $this->reading_speed;
     }
 
-    public function setReadingSpeed(float $reading_speed): static
+    public function setReadingSpeed(): static
     {
+        $reading_time_minutes = $this->getTotalReadingTime() / 60;
+        $reading_speed = $this->getPagesReadCount() / $reading_time_minutes;
         $this->reading_speed = $reading_speed;
 
         return $this;

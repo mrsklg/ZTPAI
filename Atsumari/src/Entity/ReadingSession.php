@@ -2,11 +2,28 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\ReadingSessionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReadingSessionRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post()
+    ],
+    normalizationContext: [
+        'groups' => ['readingSession:read']
+    ],
+     denormalizationContext: [
+        'groups' => ['readingSession:write']
+]
+)]
 class ReadingSession
 {
     #[ORM\Id]
@@ -16,22 +33,35 @@ class ReadingSession
 
     #[ORM\ManyToOne(inversedBy: 'readingSessions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Assert\NotBlank]
     private ?User $user_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'readingSessions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Assert\NotBlank]
     private ?Book $book_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(1)]
     private ?int $pages_read = null;
 
     #[ORM\Column]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(60)]
     private ?int $duration = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['readingSession:read', 'readingSession:write'])]
     private ?\DateTimeInterface $start_date = null;
 
     public function getId(): ?int

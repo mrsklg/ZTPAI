@@ -6,8 +6,11 @@ use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[UniqueEntity(['first_name', 'last_name'])]
 class Author
 {
     #[ORM\Id]
@@ -16,9 +19,11 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['book:write', 'book:read', 'user:read'])]
     private ?string $last_name = null;
 
     /**
