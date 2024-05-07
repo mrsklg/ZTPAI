@@ -264,6 +264,12 @@ main > .elements > .container > img {
     gap: 5%;
 }
 
+input.check-form {
+    display: inline;
+    width: auto;
+    margin-right: 0.5rem;
+}
+
 @media (min-width: 600px) {
     body {
         height: 100vh;

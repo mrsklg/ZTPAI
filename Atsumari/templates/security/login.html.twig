@@ -6,6 +6,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/login.js') }}"></script>
+{% endblock %}
+
 {% block body_class %}flex-row-center-center{% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -15,16 +19,15 @@
         <img src="{{ asset('images/Atsumari.png') }}">
         <div class="form-container">
             <div class="messages">
-                {% if messages is defined %}
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
+                {% if error %}
+                    <p>{{ error.messageKey | trans(error.messageData, 'security') }}</p>
                 {% else %}
                     <h2>Welcome back!</h2>
                 {% endif %}
             </div>
-            <form class="flex-column-space-around-center" action="{{ path('login') }}" method="POST">
-                <input type="text" name="email" placeholder="Email" required>
+{#            <form class="flex-column-space-around-center" id="login-form" action="{{ path('app_login') }}" method="POST">#}
+            <form class="flex-column-space-around-center" id="login-form">
+                <input type="text" name="email" placeholder="Email" value="{{ last_username }}" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="default-btn">Login</button>
             </form>

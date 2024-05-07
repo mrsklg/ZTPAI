@@ -12,9 +12,11 @@
         <link rel="stylesheet" href="{{ asset('css/global.css') }}">
         <script src="https://kit.fontawesome.com/0d4592f9a9.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body class="{% block body_class %}{% endblock %}">
@@ -44,9 +46,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="settings" class="nav-avatar">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('settings_admin') }}" class="nav-avatar">
                                 <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">
                             </a>
+                            {% else %}
+                            <a href="{{ path('settings') }}" class="nav-avatar">
+                                <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">
+                            </a>
+                            {% endif %}
                         </li>
                     </ul>
                 </nav>

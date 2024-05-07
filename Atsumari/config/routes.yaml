@@ -1,3 +1,6 @@
+api_login_check:
+    path: /api/login_check
+#    controller: lexik_jwt_authentication.controller.jwt_authentication_controller:authenticateAction
 controllers:
     resource:
         path: ../src/Controller/

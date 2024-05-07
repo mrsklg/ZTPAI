@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -61,6 +62,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/books', name: 'collection')]
+//    #[IsGranted('ROLE_USER')]
     public function collection(): Response
     {
         return $this->render('book/collection.html.twig', [
@@ -69,6 +71,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/books/{id}', name: 'book_details')]
+    #[IsGranted('ROLE_USER')]
     public function bookDetails($id): Response
     {
         $isCurrentBook = $id == $this->currentBook['id'];
@@ -76,13 +79,14 @@ class BookController extends AbstractController
 
         return $this->render('book/details.html.twig', [
             'id' => $id,
-            'book' => $this->books[$id],
+//            'book' => $this->books[$id],
             'isCurrentBook' => $isCurrentBook,
             'existsCurrentBook' => $existsCurrentBook
         ]);
     }
 
     #[Route('/current_book', name: 'current_book')]
+    #[IsGranted('ROLE_USER')]
     public function currentBook(): Response
     {
         return $this->render('book/current_book.html.twig', [
@@ -92,8 +96,29 @@ class BookController extends AbstractController
     }
 
     #[Route('/add_book', name: 'add_book')]
-    public function addBook(): Response
+    #[IsGranted('ROLE_USER')]
+    public function addBook(Request $request): Response
     {
+        if ($request->isMethod('POST')) {
+            $file = $request->files->get('file');
+
+            dd($file);
+            // Obsłuż zapis pliku w katalogu public/uploads
+//            $uploadsDirectory = $this->getParameter('kernel.project_dir') . '/public/uploads';
+//            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+//            $file->move($uploadsDirectory, $filename);
+//
+//            // Pobierz inne dane z formularza
+//            $title = $request->request->get('title');
+//            $author = $request->request->get('author');
+//            $pages = $request->request->get('pages');
+//            $genre = $request->request->get('genre');
+
+            // Tutaj możesz zapisać dane do bazy danych
+
+            // Przekieruj użytkownika na inną stronę
+            return $this->redirectToRoute('collection');
+        }
         return $this->render('book/add_book.html.twig', [
             'text' => 'add book',
         ]);
