@@ -23,9 +23,31 @@ class BookApiController extends AbstractController
             return $this->addBookToDb($request, $entityManager);
         } elseif ($request->isMethod('DELETE')) {
             return $this->removeBookFromCollection($request, $entityManager);
-        } else {
+        } elseif ($request->isMethod('GET')) {
+            return $this->getUsersBooks($request, $entityManager);
+        }else {
             return new Response(null, Response::HTTP_METHOD_NOT_ALLOWED);
         }
+    }
+
+    #[Route('/api/books', name: 'books', methods: ['GET'])]
+    public function getUsersBooks(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $userId = $this->getUser()->getId();
+        $userRepository = $entityManager->getRepository(User::class);
+        $user = $userRepository->find($userId);
+        $books = $user->getBooks();
+
+        $booksData = [];
+        foreach ($books as $book) {
+            $booksData[] = [
+                'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'coverUrl' => $book->getCoverUrl(),
+            ];
+        }
+
+        return new JsonResponse($booksData);
     }
 
     #[Route('/api/add_book_to_db', name: 'add_book_to_db', methods: ['POST'])]
@@ -33,16 +55,21 @@ class BookApiController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!isset($data['title'], $data['num_of_pages'], $data['cover_url'], $data['authors'], $data['genres'], $data['user_id'])) {
+        if (!isset($data['title'], $data['num_of_pages'], $data['authors'], $data['genres'])) {
             return new JsonResponse(['error' => 'Brak wymaganych danych'], 400);
+        }
+
+        if (!isset($data['user_id'])) {
+            $user_id = $this->getUser()->getId();
+        } else {
+            $user_id= $data['user_id'];
         }
 
         $title = $data['title'];
         $numOfPages = $data['num_of_pages'];
-        $coverUrl = $data['cover_url'];
+//        $coverUrl = $data['cover_url'];
         $authors = $data['authors'];
         $genres = $data['genres'];
-        $user_id= $data['user_id'];
 
         try {
             $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $user_id]);
@@ -57,7 +84,7 @@ class BookApiController extends AbstractController
                 $book = new Book();
                 $book->setTitle($title);
                 $book->setNumOfPages($numOfPages);
-                $book->setCoverUrl($coverUrl);
+//                $book->setCoverUrl($coverUrl);
                 $entityManager->persist($book);
             }
 
@@ -65,7 +92,6 @@ class BookApiController extends AbstractController
                 $firstName = $author['first_name'];
                 $lastName = $author['last_name'];
 
-                // Sprawdź, czy autor istnieje w bazie danych
                 $authorObject = $entityManager->getRepository(Author::class)->findOneBy(['first_name' => $firstName, 'last_name' => $lastName]);
                 if (!$authorObject) {
                     $authorObject = new Author();
@@ -90,6 +116,15 @@ class BookApiController extends AbstractController
                 $book->addGenre($genreObject);
             }
 
+            $coverFile = $request->files->get('cover_file');
+            if ($coverFile) {
+                // Przenieś przesłany plik do katalogu w projekcie
+                $coverFileName = uniqid().'.'.$coverFile->guessExtension();
+                $coverFile->move($this->getParameter('cover_directory'), $coverFileName);
+                // Zapisz nazwę pliku w obiekcie książki
+                $book->setCoverUrl($coverFileName);
+            }
+
             $user->addBook($book);
             $book->addUser($user);
 
@@ -104,10 +139,11 @@ class BookApiController extends AbstractController
         }
     }
 
-    #[Route('/api/remove_book/{book_id}/user/{user_id}', name: 'remove_book', methods: ['DELETE'])]
+    #[Route('/api/remove_book/{book_id}', name: 'remove_book', methods: ['DELETE'])]
     public function removeBookFromCollection(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $userId = $request->attributes->get('user_id');
+
+        $userId = $this->getUser()->getId();
         $bookId = $request->attributes->get('book_id');
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
@@ -131,6 +167,6 @@ class BookApiController extends AbstractController
 
         $entityManager->flush();
 
-        return new JsonResponse(['success' => 'Książka została pomyślnie usunięta z kolekcji'], 204);
+        return new JsonResponse(['success' => 'Książka została pomyślnie usunięta z kolekcji'], 201);
     }
 }

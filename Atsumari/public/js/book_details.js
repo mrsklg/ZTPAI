@@ -1,3 +1,4 @@
+let deleteBtn;
 document.addEventListener('DOMContentLoaded', async () => {
     const url = window.location.href;
     const id = url.substring(url.lastIndexOf('/') + 1);
@@ -23,15 +24,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const continueReadingLink = document.getElementById('continue-reading');
         if (book.users.length > 0) {
-            continueReadingLink.href = `/reading_session/${id}`;
+            continueReadingLink.href = `/reading_session`;
         } else {
             continueReadingLink.remove();
         }
 
-        const closePopupLink = document.getElementById('close-popup');
-        if (book.users.length === 0) {
-            closePopupLink.href = '/books';
-        }
+        deleteBtn = document.querySelector("#delete-btn")
+
+        deleteBtn.addEventListener('click', async () => {
+            const response = await fetch(`http://127.0.0.1:8000/api/remove_book/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                }
+            });
+            const data = await response.json()
+            console.log(data);
+            window.location.href = '/books'
+            if (!response.ok) {
+                throw new Error('Failed to fetch book details');
+            }
+        })
+
+        // const closePopupLink = document.getElementById('close-popup');
+        // if (book.users.length === 0) {
+        //     closePopupLink.href = '/books';
+        // }
     } catch (error) {
         console.error(error);
     }

@@ -13,23 +13,29 @@ async function fetchBooksAndUpdateView() {
         }
 
         const data = await response.json();
-        console.log(data)
-        const books = data['hydra:member'];
 
-        const bookListContainer = document.querySelector('.book-list');
+        let bookListContainer = document.querySelector('.book-list');
 
-        books.forEach(book => {
-            console.log(book)
+        if (!bookListContainer) {
+            bookListContainer = document.createElement('div');
+            bookListContainer.classList.add('book-list');
+            if (data.length > 0) {
+                document.querySelector('main').innerHTML = '';
+            }
+            document.querySelector('main').appendChild(bookListContainer);
+        }
+
+        data.forEach(book => {
             const bookTile = document.createElement('div');
             bookTile.classList.add('collection-tile');
             bookTile.id = book.title;
 
             const bookLink = document.createElement('a');
-            const bookId = book['@id'].split('/').pop();
+            const bookId = book.id;
             bookLink.href = `/books/${bookId}`;
 
             const bookImage = document.createElement('img');
-            bookImage.src = book.cover_url;
+            bookImage.src = book.coverUrl;
             bookImage.alt = 'book cover';
 
             bookLink.appendChild(bookImage);

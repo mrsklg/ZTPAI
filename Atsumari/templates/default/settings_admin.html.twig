@@ -24,7 +24,7 @@
             <div class="form-container">
                 <h2 class="manage-text">Manage Your Account</h2>
                 <form method="POST" action={{ path('logout') }}>
-                    <button class="default-btn">Delete account</button>
+                    <button class="default-btn del-btn" id="delete-logged-usr-btn">Delete account</button>
                     <button class="default-btn" type="submit" name="logout">Logout</button>
                 </form>
             </div>
@@ -32,18 +32,18 @@
         <div class="history flex-column-space-around-center">
             <h4>Manage Users</h4>
             <div class="users-container">
-                {% for user in users %}
-                    <div class="session-info flex-row-center-center user-info">
-                        <div class="flex-column-space-around-center session-details user-img">
-                            <img class="avatar-img-admin" src="{{ asset('images/avatar-img.png') }}" alt="avatar image">
-                        </div>
-                        <div class="flex-column-space-around-center session-details">
-                            <p class="dark">{{ user.firstName }} {{ user.lastName }}</p>
-                            <p class="dark email">{{ user.email }}</p>
-                        </div>
-                        <button class="small-btn" data-email="{{ user.email }}">Delete User</button>
-                    </div>
-                {% endfor %}
+{#                {% for user in users %}#}
+{#                    <div class="session-info flex-row-center-center user-info">#}
+{#                        <div class="flex-column-space-around-center session-details user-img">#}
+{#                            <img class="avatar-img-admin" src="{{ asset('images/avatar-img.png') }}" alt="avatar image">#}
+{#                        </div>#}
+{#                        <div class="flex-column-space-around-center session-details">#}
+{#                            <p class="dark">{{ user.firstName }} {{ user.lastName }}</p>#}
+{#                            <p class="dark email">{{ user.email }}</p>#}
+{#                        </div>#}
+{#                        <button class="small-btn" data-userId="{{ user.userId }}">Delete User</button>#}
+{#                    </div>#}
+{#                {% endfor %}#}
             </div>
         </div>
     </main>

@@ -270,6 +270,18 @@ input.check-form {
     margin-right: 0.5rem;
 }
 
+form > div {
+    width: 100%;
+}
+
+form > div > label {
+    display: none;
+}
+
+form > div > ul > li {
+    list-style-type: none;
+}
+
 @media (min-width: 600px) {
     body {
         height: 100vh;

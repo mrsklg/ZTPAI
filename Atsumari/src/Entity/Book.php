@@ -23,13 +23,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection(),
+//        new GetCollection(),
     ],
     normalizationContext: [
         'groups' => ['book:read']
     ],
     denormalizationContext: [
         'groups' => ['book:write']
+    ]
+)]
+#[GetCollection(
+    uriTemplate: '/books',
+    controller: BookApiController::class,
+    normalizationContext: [
+        'groups' => ['book:read']
     ]
 )]
 #[Post(
@@ -39,14 +46,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'groups' => ['book:write']
     ])]
 #[Delete(
-    uriTemplate: '/api/remove_book/{book_id}/user/{user_id}',
+    uriTemplate: '/remove_book/{book_id}',
     uriVariables: [
         'book_id' => new Link(
             fromClass: Book::class
-        ),
-        'user_id' => new Link(
-            fromProperty: 'books',
-            fromClass: User::class
         )
     ],
     controller: BookApiController::class

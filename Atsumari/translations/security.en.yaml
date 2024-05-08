@@ -1,2 +1,3 @@
 "Invalid credentials.": "Invalid password entered!"
 "Username could not be found.": "Email not found!"
+"This value is already used.": "User with this first and last name already exists!"

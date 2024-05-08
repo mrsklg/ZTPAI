@@ -13,24 +13,24 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DefaultController extends AbstractController
 {
-    private $isAdmin = true;
-    private $users = [
-        [
-            'firstName' => 'Jane',
-            'lastName' => 'Doe',
-            'email' => 'jane.doe@mail.com'
-        ],
-        [
-            'firstName' => 'David',
-            'lastName' => 'Brown',
-            'email' => 'david.brown@mail.com'
-        ],
-        [
-            'firstName' => 'Jane',
-            'lastName' => 'Brown',
-            'email' => 'jane.brown@mail.com'
-        ],
-    ];
+//    private $isAdmin = true;
+//    private $users = [
+//        [
+//            'firstName' => 'Jane',
+//            'lastName' => 'Doe',
+//            'email' => 'jane.doe@mail.com'
+//        ],
+//        [
+//            'firstName' => 'David',
+//            'lastName' => 'Brown',
+//            'email' => 'david.brown@mail.com'
+//        ],
+//        [
+//            'firstName' => 'Jane',
+//            'lastName' => 'Brown',
+//            'email' => 'jane.brown@mail.com'
+//        ],
+//    ];
 
     #[Route('/dashboard', name: 'dashboard')]
     #[IsGranted('ROLE_USER')]
@@ -53,8 +53,7 @@ class DefaultController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function stats(): Response
     {
-        return $this->render('default/stats.html.twig', [
-        ]);
+        return $this->render('default/stats.html.twig');
     }
 
     #[Route('/settings', name: 'settings')]
@@ -69,7 +68,7 @@ class DefaultController extends AbstractController
     public function settingsAdmin(): Response
     {
         return $this->render('default/settings_admin.html.twig', [
-            'users' => $this->users
+//            'users' => $this->users
         ]);
     }
 }

@@ -27,42 +27,42 @@ class BookController extends AbstractController
 
     public function __construct()
     {
-        $this->books = [
-            [
-                'id' => 0,
-                'title' => 'Book 1',
-                'author' => 'Author 1',
-                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T376413.jpg',
-                'numOfPages' => 300,
-                'genre' => 'fantasy'
-            ],
-            [
-                'id' => 1,
-                'title' => 'Book 2',
-                'author' => 'Author 2',
-                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/fs/T377036.jpg',
-                'numOfPages' => 200,
-                'genre' => 'fantasy'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Book 3',
-                'author' => 'Author 3',
-                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T377013.jpg',
-                'numOfPages' => 250,
-                'genre' => 'fantasy'
-            ],
-        ];
-        $this->readingSessions = [
-            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-        ];
-        $this->currentBook = $this->books[1];
+//        $this->books = [
+//            [
+//                'id' => 0,
+//                'title' => 'Book 1',
+//                'author' => 'Author 1',
+//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T376413.jpg',
+//                'numOfPages' => 300,
+//                'genre' => 'fantasy'
+//            ],
+//            [
+//                'id' => 1,
+//                'title' => 'Book 2',
+//                'author' => 'Author 2',
+//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/fs/T377036.jpg',
+//                'numOfPages' => 200,
+//                'genre' => 'fantasy'
+//            ],
+//            [
+//                'id' => 2,
+//                'title' => 'Book 3',
+//                'author' => 'Author 3',
+//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T377013.jpg',
+//                'numOfPages' => 250,
+//                'genre' => 'fantasy'
+//            ],
+//        ];
+//        $this->readingSessions = [
+//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
+//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
+//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
+//        ];
+//        $this->currentBook = $this->books[1];
     }
 
     #[Route('/books', name: 'collection')]
-//    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER')]
     public function collection(): Response
     {
         return $this->render('book/collection.html.twig', [
@@ -74,7 +74,7 @@ class BookController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function bookDetails($id): Response
     {
-        $isCurrentBook = $id == $this->currentBook['id'];
+        $isCurrentBook = $id == 1;//$this->currentBook['id'];
         $existsCurrentBook = $this->currentBook !== null;
 
         return $this->render('book/details.html.twig', [

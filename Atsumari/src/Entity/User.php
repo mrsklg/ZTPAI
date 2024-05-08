@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Tests\Fixtures\Metadata\Get;
+use App\Controller\UserApiController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection(),
+//        new GetCollection(),
         new Post(),
         new Patch(
             denormalizationContext: [
@@ -38,6 +39,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: [
         'groups' => ['user:write'],
+    ]
+)]
+#[GetCollection(
+    uriTemplate: '/users',
+    controller: UserApiController::class,
+    normalizationContext: [
+        'groups' => ['user:read']
     ]
 )]
 #[UniqueEntity(fields: ['email'], message: "There is already an account with this email")]

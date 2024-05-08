@@ -17,14 +17,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-//    #[Route('/login', name: 'app_login')]
-//    public function apiLogin(#[CurrentUser] $user = null): Response
-//    {
-//        return $this->json([
-//            'user' => $user ? $user->getId() : null,
-//        ]);
-//    }
-
     #[Route('/login', name: 'app_login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils, #[CurrentUser] $user = null): Response
     {
@@ -41,7 +33,6 @@ class SecurityController extends AbstractController
             ]);
         }
         return $this->render('security/login.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError()
         ]);
     }
@@ -52,6 +43,7 @@ class SecurityController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserRegistrationFormType::class, $user);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
@@ -78,6 +70,5 @@ class SecurityController extends AbstractController
     public function logout(): Response
     {
         throw new \Exception('logout() should never be reached');
-//        return $this->redirectToRoute('start_page');
     }
 }

@@ -15,30 +15,25 @@
         <img src="{{ asset('images/Atsumari.png') }}">
         <div class="form-container">
             <h2>Create an account</h2>
-            <div class="messages">
-                {% if messages is defined %}
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.id_user_details.firstName) }}
-            {{ form_row(registrationForm.id_user_details.lastName) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword.first) }}
-            {{ form_row(registrationForm.plainPassword.second) }}
+            {{ form_start(registrationForm, {'attr': {'class': 'flex-column-space-around-center'}}) }}
+            {% if registrationForm.vars.errors|length > 0 %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in registrationForm.vars.errors %}
+                            <li>{{ error.message | trans({}, 'security') }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {{ form_row(registrationForm.id_user_details.firstName, {'attr': {'placeholder': 'First Name'}}) }}
+            {{ form_row(registrationForm.id_user_details.lastName, {'attr': {'placeholder': 'Last Name'}}) }}
+            {{ form_row(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+            {{ form_row(registrationForm.plainPassword.first, {'attr': {'placeholder': 'Password'}}) }}
+            {{ form_row(registrationForm.plainPassword.second, {'attr': {'placeholder': 'Confirm password'}}) }}
 
             <button type="submit" class="default-btn">Create account</button>
+
             {{ form_end(registrationForm) }}
-{#            <form class="flex-column-space-around-center" method="POST" action="{{ path('signup') }}">#}
-{#                <input type="text" name="name" placeholder="Name" required>#}
-{#                <input type="text" name="surname" placeholder="Surname" required>#}
-{#                <input type="email" name="email" placeholder="Email" required>#}
-{#                <input type="password" name="password" placeholder="Password" required>#}
-{#                <input type="password" name="confirmPassword" placeholder="Confirm Password" required>#}
-{#                <button type="submit" class="default-btn">Create account</button>#}
-{#            </form>#}
             <p class="comment">I Already Have an Account. <a href="{{ path('app_login') }}" class="popup-cancel-btn">Log In</a></p>
         </div>
     </main>
