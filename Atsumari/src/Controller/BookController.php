@@ -6,6 +6,10 @@ use App\Entity\Book;
 use App\Entity\Author;
 use App\Entity\Genre;
 use App\Entity\User;
+use App\Entity\UserBookStats;
+use App\Repository\BookRepository;
+use App\Repository\ReadingSessionRepository;
+use App\Repository\UserBookStatsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +21,9 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\BookType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsController]
 class BookController extends AbstractController
@@ -26,40 +33,7 @@ class BookController extends AbstractController
     private $currentBook;
 
     public function __construct()
-    {
-//        $this->books = [
-//            [
-//                'id' => 0,
-//                'title' => 'Book 1',
-//                'author' => 'Author 1',
-//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T376413.jpg',
-//                'numOfPages' => 300,
-//                'genre' => 'fantasy'
-//            ],
-//            [
-//                'id' => 1,
-//                'title' => 'Book 2',
-//                'author' => 'Author 2',
-//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/fs/T377036.jpg',
-//                'numOfPages' => 200,
-//                'genre' => 'fantasy'
-//            ],
-//            [
-//                'id' => 2,
-//                'title' => 'Book 3',
-//                'author' => 'Author 3',
-//                'coverUrl' => 'https://s.znak.com.pl//files/covers/card/f1/T377013.jpg',
-//                'numOfPages' => 250,
-//                'genre' => 'fantasy'
-//            ],
-//        ];
-//        $this->readingSessions = [
-//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-//            ['startDate' => '2024-04-07 11:50', 'endDate' => '2024-04-07 12:00', 'pagesRead' => '10', 'duration' => '600'],
-//        ];
-//        $this->currentBook = $this->books[1];
-    }
+    {    }
 
     #[Route('/books', name: 'collection')]
     #[IsGranted('ROLE_USER')]
@@ -72,55 +46,134 @@ class BookController extends AbstractController
 
     #[Route('/books/{id}', name: 'book_details')]
     #[IsGranted('ROLE_USER')]
-    public function bookDetails($id): Response
+    public function bookDetails($id, BookRepository $bookRepository): Response
     {
-        $isCurrentBook = $id == 1;//$this->currentBook['id'];
-        $existsCurrentBook = $this->currentBook !== null;
+        $userId = $this->getUser()->getId();
+//        $currentBook = $bookRepository->getCurrentBookForUser($userId);
+//        $isCurrentBook = ($id === $currentBook['id']);
+//        $existsCurrentBook = $currentBook !== null;
 
         return $this->render('book/details.html.twig', [
-            'id' => $id,
+//            'id' => $id,
 //            'book' => $this->books[$id],
-            'isCurrentBook' => $isCurrentBook,
-            'existsCurrentBook' => $existsCurrentBook
+//            'isCurrentBook' => $isCurrentBook,
+//            'existsCurrentBook' => $existsCurrentBook
         ]);
     }
 
     #[Route('/current_book', name: 'current_book')]
     #[IsGranted('ROLE_USER')]
-    public function currentBook(): Response
+    public function currentBook(BookRepository $bookRepository, ReadingSessionRepository $sessionRepository, UserBookStatsRepository $bookStatsRepository): Response
     {
+        $userId = $this->getUser()->getId();
+        $currentBook = $bookRepository->getCurrentBookForUser($userId);
+        if ($currentBook) {
+            $bookId = $currentBook['id'];
+        } else {
+            $bookId = null;
+        }
+
+        $readingSessions = $sessionRepository->findAll();
+        $userBookStats = $bookStatsRepository->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
         return $this->render('book/current_book.html.twig', [
-            'book' => $this->currentBook,
-            'reading_sessions' => $this->readingSessions
+            'book' => $currentBook,
+            'reading_sessions' => $readingSessions,
+            'stats' => $userBookStats
         ]);
+    }
+
+    #[Route('/api/current_book', name: 'current_book_data')]
+    #[IsGranted('ROLE_USER')]
+    public function currentBookData(BookRepository $bookRepository, ReadingSessionRepository $sessionRepository, UserBookStatsRepository $bookStatsRepository): Response
+    {
+        $userId = $this->getUser()->getId();
+        $book = $bookRepository->getCurrentBookForUser($userId);
+        return new JsonResponse($book);
     }
 
     #[Route('/add_book', name: 'add_book')]
     #[IsGranted('ROLE_USER')]
-    public function addBook(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+
+        $user = $em->getRepository(User::class)->findOneBy(['id' => $this->getUser()->getId()]);
+        $book = new Book();
+        $form = $this->createForm(BookType::class, $book);
         if ($request->isMethod('POST')) {
-            $file = $request->files->get('file');
+            $bookTitle = $request->request->all()["book"]["title"];
+            $existingBook = $em->getRepository(Book::class)->findOneBy(['title' => $bookTitle]);
 
-            dd($file);
-            // Obsłuż zapis pliku w katalogu public/uploads
-//            $uploadsDirectory = $this->getParameter('kernel.project_dir') . '/public/uploads';
-//            $filename = md5(uniqid()) . '.' . $file->guessExtension();
-//            $file->move($uploadsDirectory, $filename);
-//
-//            // Pobierz inne dane z formularza
-//            $title = $request->request->get('title');
-//            $author = $request->request->get('author');
-//            $pages = $request->request->get('pages');
-//            $genre = $request->request->get('genre');
+            if ($existingBook) {
+                if (!$user->getBooks()->contains($existingBook)) {
+                    $user->addBook($existingBook);
+                    $existingBook->addUser($user);
+                    $em->flush();
 
-            // Tutaj możesz zapisać dane do bazy danych
+                    return $this->redirectToRoute('collection');
+                } else {
+                    return $this->redirectToRoute('collection', ['error' => 'Książka już znajduje się w Twojej kolekcji.']);
+                }
+            } else {
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $coverFile = $form->get('coverFile')->getData();
 
-            // Przekieruj użytkownika na inną stronę
-            return $this->redirectToRoute('collection');
+                    if ($coverFile) {
+                        $originalFilename = pathinfo($coverFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$coverFile->guessExtension();
+
+                        try {
+                            $coverFile->move(
+                                $this->getParameter('uploads_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                        }
+
+                        $book->setCoverUrl('/uploads/' . $newFilename);
+                    }
+
+                    foreach ($book->getAuthors() as $author) {
+                        $existingAuthor = $em->getRepository(Author::class)->findOneBy([
+                            'first_name' => $author->getFirstName(),
+                            'last_name' => $author->getLastName()
+                        ]);
+
+                        if ($existingAuthor) {
+                            $book->removeAuthor($author);
+                            $book->addAuthor($existingAuthor);
+                        } else {
+                            $em->persist($author);
+                        }
+                    }
+
+                    foreach ($book->getGenres() as $genre) {
+                        $existingGenre = $em->getRepository(Genre::class)->findOneBy([
+                            'genre_name' => $genre->getGenreName()
+                        ]);
+
+                        if ($existingGenre) {
+                            $book->removeGenre($genre);
+                            $book->addGenre($existingGenre);
+                        } else {
+                            $em->persist($genre);
+                        }
+                    }
+
+                    $book->addUser($user);
+                    $user->addBook($book);
+
+                    $em->persist($book);
+                    $em->flush();
+
+                    return $this->redirectToRoute('collection');
+                }
+            }
         }
+
         return $this->render('book/add_book.html.twig', [
-            'text' => 'add book',
+            'form' => $form->createView(),
         ]);
     }
 }

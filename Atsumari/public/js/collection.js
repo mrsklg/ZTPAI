@@ -19,6 +19,7 @@ async function fetchBooksAndUpdateView() {
         if (!bookListContainer) {
             bookListContainer = document.createElement('div');
             bookListContainer.classList.add('book-list');
+            bookListContainer.classList.add('flex-row-center-center');
             if (data.length > 0) {
                 document.querySelector('main').innerHTML = '';
             }

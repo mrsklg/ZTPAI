@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 #[Post(
-    uriTemplate: '/add_book_to_db',
+    uriTemplate: '/add_book',
     controller: BookApiController::class,
     denormalizationContext: [
         'groups' => ['book:write']
@@ -79,6 +79,13 @@ use Symfony\Component\Validator\Constraints as Assert;
             fromClass: Book::class
         )
     ],
+    normalizationContext: [
+        'groups' => 'user:read'
+    ]
+)]
+#[ApiResource(
+    uriTemplate: '/current_book_data',
+    operations: [new Get()],
     normalizationContext: [
         'groups' => 'user:read'
     ]

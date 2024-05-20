@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+{% endblock %}
+
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
@@ -44,5 +48,9 @@
                 </div>
             </a>
         </div>
+        <script>
+            {#window.user = {{ user|raw }};#}
+            console.log({{ user|raw }})
+        </script>
     </main>
 {% endblock %}

@@ -1,5 +1,3 @@
-// Twój plik JavaScript (np. login.js)
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('#login-form');
     const messages = document.querySelector('.messages')
@@ -24,21 +22,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const data = await response.json()
-            console.log(data)
+            // console.log(data)
             localStorage.setItem('jwt', data.token)
 
             if (!response.ok) {
-                console.log(data.message)
+                // console.log(data.message)
                 messages.innerHTML = `<p>${data.message}</p>`
                 throw new Error('Login failed');
             }
 
-            // Handle successful login
-            console.log('Login successful');
+            // console.log('Login successful');
             window.location.href = '/dashboard';
 
         } catch (error) {
-            // Handle login error
             console.error('Login failed:', error);
         }
     });

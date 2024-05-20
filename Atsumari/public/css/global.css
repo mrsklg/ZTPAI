@@ -282,6 +282,10 @@ form > div > ul > li {
     list-style-type: none;
 }
 
+ul > li {
+    list-style-type: none;
+}
+
 @media (min-width: 600px) {
     body {
         height: 100vh;

@@ -1,4 +1,3 @@
-let deleteBtn;
 document.addEventListener('DOMContentLoaded', async () => {
     const url = window.location.href;
     const id = url.substring(url.lastIndexOf('/') + 1);
@@ -15,22 +14,52 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error('Failed to fetch book details');
         }
         const book = await response.json();
+        console.log(book)
+
+        const genres = []
+        for (const genre of book.genres) {
+            genres.push(genre.genre_name)
+        }
+
+        const authors = []
+        for (const author of book.authors) {
+            authors.push(author.first_name + ' ' + author.last_name)
+        }
+
+        const currBookRes = await fetch(`http://127.0.0.1:8000/api/current_book_data`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const currBook = await currBookRes.json();
+        const existCurrBook = (currBook.title && currBook.id)
+        const isCurrBook = (book.title === currBook.title)
+        console.log(existCurrBook, isCurrBook)
+        const bookId = book["@id"].slice(11);
 
         document.getElementById('title').innerText = book.title;
-        document.getElementById('author').innerText = book.authors[0].first_name + ' ' + book.authors[0].last_name;
+        document.getElementById('author').innerText = authors.join(', ');
         document.getElementById('num-of-pages').innerText = book.num_of_pages;
-        document.getElementById('genre').innerText = book.genres[0].genre_name;
+
+        document.getElementById('genre').innerText = genres.join(', ');
         document.querySelector('.cover-img').src = book.cover_url;
 
         const continueReadingLink = document.getElementById('continue-reading');
-        if (book.users.length > 0) {
-            continueReadingLink.href = `/reading_session`;
-        } else {
+        if (isCurrBook) {
+            continueReadingLink.href = `/reading_session?id=${bookId}`;
+        } else if (existCurrBook) {
             continueReadingLink.remove();
+            document.querySelector('#close-popup').classList.remove("popup-cancel-btn")
+            document.querySelector('#close-popup').classList.add("popup-light-btn")
+        } else {
+            continueReadingLink.textContent = "Start reading";
+            continueReadingLink.href = `/reading_session?id=${bookId}`;
         }
 
-        deleteBtn = document.querySelector("#delete-btn")
 
+        const deleteBtn = document.querySelector("#delete-btn")
         deleteBtn.addEventListener('click', async () => {
             const response = await fetch(`http://127.0.0.1:8000/api/remove_book/${id}`, {
                 method: 'DELETE',
@@ -45,11 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 throw new Error('Failed to fetch book details');
             }
         })
-
-        // const closePopupLink = document.getElementById('close-popup');
-        // if (book.users.length === 0) {
-        //     closePopupLink.href = '/books';
-        // }
     } catch (error) {
         console.error(error);
     }

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class DefaultController extends AbstractController
 {
@@ -34,11 +35,12 @@ class DefaultController extends AbstractController
 
     #[Route('/dashboard', name: 'dashboard')]
     #[IsGranted('ROLE_USER')]
-    public function dashboard(): Response
+    public function dashboard(SerializerInterface $serializer): Response
     {
         return $this->render('default/dashboard.html.twig', [
             'bookCover' => null,
             'bookTitle' => null,
+            'user' => $serializer->serialize($this->getUser()->getId(), 'jsonld')
         ]);
     }
 

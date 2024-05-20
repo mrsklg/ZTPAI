@@ -21,6 +21,22 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function getCurrentBookForUser(int $userId): ?array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b.id', 'c.id', 'b.title', 'b.cover_url', 'b.num_of_pages', 'SUM(rs.pages_read) AS totalPagesRead')
+            ->leftJoin('b.users', 'u')
+            ->leftJoin('u.books', 'c')
+            ->leftJoin('c.readingSessions', 'rs', 'WITH', 'u.id = rs.user_id AND c.id = rs.book_id')
+            ->andWhere('u.id = :userId')
+            ->groupBy('b.id', 'c.id', 'b.title', 'b.num_of_pages')
+            ->having('SUM(rs.pages_read) < b.num_of_pages')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */
