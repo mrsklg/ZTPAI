@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use App\Controller\BookApiController;
 use App\Controller\BookController;
+use App\Controller\CurrentBookController;
 use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +24,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
-//        new GetCollection(),
+        new Get(
+            uriTemplate: '/api/current_book_data',
+            controller: CurrentBookController::class,
+            normalizationContext: ['groups' => ['book:read']],
+            name: 'current_book_data'
+        )
     ],
     normalizationContext: [
         'groups' => ['book:read']
@@ -79,13 +85,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             fromClass: Book::class
         )
     ],
-    normalizationContext: [
-        'groups' => 'user:read'
-    ]
-)]
-#[ApiResource(
-    uriTemplate: '/current_book_data',
-    operations: [new Get()],
     normalizationContext: [
         'groups' => 'user:read'
     ]

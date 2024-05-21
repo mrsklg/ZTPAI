@@ -48,4 +48,4 @@ async function fetchBooksAndUpdateView() {
     }
 }
 
-window.addEventListener('load', fetchBooksAndUpdateView);
+window.addEventListener('DOMContentLoaded', fetchBooksAndUpdateView);

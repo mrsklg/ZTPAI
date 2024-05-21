@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/reading_session.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/reading_session.js') }}"></script>
+{% endblock %}
+
 {% block body_class %}flex-row-center-center body-popup{% endblock %}
 
 {% block navbar %}{% endblock %}
@@ -14,10 +18,10 @@
 {% block content %}
     <div class="popup flex-column-space-around-center">
         <h1>Reading session</h1>
-        <p>You have already read: <span>{{ pagesRead }}</span> pages</p>
+        <p>You have already read: <span id="pages-read"></span> pages</p>
         <div class="session-details flex-column-space-around-center">
             <div class="bookcover flex-row-center-center">
-                <img src="{{ book.cover_url }}" class="cover-img" alt="">
+                <img src="" class="cover-img" alt="">
             </div>
             <div class="flex-column-space-around-center timer-container">
                 <div id="timer">
@@ -25,9 +29,9 @@
                 </div>
             </div>
         </div>
-        <button class="popup-light-btn">Start</button>
-        <button class="popup-light-btn">Pause</button>
-        <button class="popup-light-btn">Stop</button>
+        <button class="popup-light-btn" id="start-btn">Start</button>
+        <button class="popup-light-btn" id="pause-btn">Pause</button>
+        <button class="popup-light-btn" id="stop-btn">Stop</button>
         <a href="{{ path('current_book') }}" class="popup-cancel-btn light">Cancel</a>
     </div>
 
@@ -40,7 +44,7 @@
                 <input type="number" id="pageNumber" name="pageNumber" placeholder="Number of page you got to" required>
                 <button type="submit" class="default-btn">Save</button>
             </form>
-            <button class="popup-cancel-btn">Cancel</button>
+            <button class="popup-cancel-btn" id="cancel-end-session">Cancel</button>
         </div>
     </div>
 {% endblock %}

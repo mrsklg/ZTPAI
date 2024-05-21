@@ -1,4 +1,9 @@
 api_platform:
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
     eager_loading:
         force_eager: false
     title: Hello API Platform

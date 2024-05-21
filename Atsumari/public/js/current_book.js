@@ -1,5 +1,5 @@
 const getCurrentBook = async () => {
-    const res = await fetch(`http://127.0.0.1:8000/api/current_book`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/current_book_data`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

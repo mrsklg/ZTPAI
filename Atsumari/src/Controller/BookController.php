@@ -48,17 +48,7 @@ class BookController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function bookDetails($id, BookRepository $bookRepository): Response
     {
-        $userId = $this->getUser()->getId();
-//        $currentBook = $bookRepository->getCurrentBookForUser($userId);
-//        $isCurrentBook = ($id === $currentBook['id']);
-//        $existsCurrentBook = $currentBook !== null;
-
-        return $this->render('book/details.html.twig', [
-//            'id' => $id,
-//            'book' => $this->books[$id],
-//            'isCurrentBook' => $isCurrentBook,
-//            'existsCurrentBook' => $existsCurrentBook
-        ]);
+        return $this->render('book/details.html.twig');
     }
 
     #[Route('/current_book', name: 'current_book')]
@@ -80,15 +70,6 @@ class BookController extends AbstractController
             'reading_sessions' => $readingSessions,
             'stats' => $userBookStats
         ]);
-    }
-
-    #[Route('/api/current_book', name: 'current_book_data')]
-    #[IsGranted('ROLE_USER')]
-    public function currentBookData(BookRepository $bookRepository, ReadingSessionRepository $sessionRepository, UserBookStatsRepository $bookStatsRepository): Response
-    {
-        $userId = $this->getUser()->getId();
-        $book = $bookRepository->getCurrentBookForUser($userId);
-        return new JsonResponse($book);
     }
 
     #[Route('/add_book', name: 'add_book')]
