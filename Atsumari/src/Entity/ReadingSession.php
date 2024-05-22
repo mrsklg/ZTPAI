@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use App\Controller\BookApiController;
+use App\Controller\SessionApiController;
 use App\Repository\ReadingSessionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +18,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ReadingSessionRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new Post()
+        new GetCollection(
+            uriTemplate: '/reading_sessions',
+            controller: SessionApiController::class
+        ),
+        new Post(
+            uriTemplate: '/reading_session',
+            controller: SessionApiController::class
+        )
     ],
     normalizationContext: [
         'groups' => ['readingSession:read']
@@ -33,13 +43,13 @@ class ReadingSession
 
     #[ORM\ManyToOne(inversedBy: 'readingSessions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Groups(['readingSession:read'])]//, 'readingSession:write'])]
     #[Assert\NotBlank]
     private ?User $user_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'readingSessions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['readingSession:read', 'readingSession:write'])]
+    #[Groups(['readingSession:read'])]//, 'readingSession:write'])]
     #[Assert\NotBlank]
     private ?Book $book_id = null;
 

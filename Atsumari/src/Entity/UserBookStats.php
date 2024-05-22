@@ -2,11 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use App\Controller\UserBookStatsApiController;
 use App\Repository\UserBookStatsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserBookStatsRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/api/user_book_stats',
+            controller: UserBookStatsApiController::class,
+            name: 'user_book_stats'
+        )
+    ]
+)]
 class UserBookStats
 {
     #[ORM\Id]

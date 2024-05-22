@@ -25,14 +25,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
-//        new GetCollection(),
         new Post(),
         new Patch(
             denormalizationContext: [
                 'groups' => ['user:write:patch']
             ]
         ),
-        new Delete()
+        new Delete(),
+        new Delete(
+            uriTemplate: '/delete_user',
+            controller: UserApiController::class
+        )
     ],
     normalizationContext: [
         'groups' => ['user:read'],

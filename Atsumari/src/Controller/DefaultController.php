@@ -12,27 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class DefaultController extends AbstractController
-{
-//    private $isAdmin = true;
-//    private $users = [
-//        [
-//            'firstName' => 'Jane',
-//            'lastName' => 'Doe',
-//            'email' => 'jane.doe@mail.com'
-//        ],
-//        [
-//            'firstName' => 'David',
-//            'lastName' => 'Brown',
-//            'email' => 'david.brown@mail.com'
-//        ],
-//        [
-//            'firstName' => 'Jane',
-//            'lastName' => 'Brown',
-//            'email' => 'jane.brown@mail.com'
-//        ],
-//    ];
-
+class DefaultController extends AbstractController {
     #[Route('/dashboard', name: 'dashboard')]
     #[IsGranted('ROLE_USER')]
     public function dashboard(SerializerInterface $serializer): Response
@@ -69,8 +49,6 @@ class DefaultController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function settingsAdmin(): Response
     {
-        return $this->render('default/settings_admin.html.twig', [
-//            'users' => $this->users
-        ]);
+        return $this->render('default/settings_admin.html.twig');
     }
 }

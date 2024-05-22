@@ -25,8 +25,8 @@ class SessionController extends AbstractController
 
         $userBookStats = $bookStatsRepository->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
         return $this->render('session/reading_session.html.twig', [
-            'pagesRead' => $userBookStats->getPagesReadCount(),
-            'book' => $currentBook
+//            'pagesRead' => $userBookStats->getPagesReadCount(),
+//            'book' => $currentBook
         ]);
     }
 }

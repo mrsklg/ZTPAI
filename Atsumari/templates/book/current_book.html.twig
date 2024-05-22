@@ -16,102 +16,44 @@
 {% block content %}
     {% if book %}
         <main class="flex-column-space-around-center main-grid">
-            <h1>You are currently reading: {{ book.title }}</h1>
+            <h1></h1>
             <div class="book-info-container flex-row-center-center">
                 <div class="bookcover flex-row-center-center">
-                    <img src="{{ book.cover_url }}" class="cover-img" alt="bookcover">
+                    <img src="" class="cover-img" alt="bookcover">
                 </div>
                 <div class="reading-progess flex-column-space-around-center">
                     <h3>Your reading progress</h3>
                     <div class="bar">
-                        <div class="progress-bar" style="width: {{ (stats.pagesReadCount / book.num_of_pages * 100) | round()}}%; border-radius: 2rem;"></div>
+                        <div class="progress-bar" style="border-radius: 2rem;"></div>
                     </div>
                     <div class="progress-data flex-row-center-center">
-                        <p>{{ (stats.pagesReadCount / book.num_of_pages * 100) | round()}}%</p>
-                        <p>{{ stats.pagesReadCount }}/{{ book.num_of_pages }}</p>
+                        <p class="progress-data-percentage"></p>
+                        <p class="progress-data-numbers"></p>
                     </div>
-                    <a href="{{ path('reading_session', {'id': book.id}) }}" class="small-btn">Continue reading</a>
+                    <a href="#" class="small-btn">Continue reading</a>
                 </div>
             </div>
             <div class="reading-summary flex-column-space-around-center">
                 <p>Your reading time:
-                    <span>
-                        {% set totalReadingTime = stats.totalReadingTime %}
-                        {% set hours = totalReadingTime // 3600 %}
-                        {% set minutes = (totalReadingTime % 3600) // 60 %}
-
-                        {{ hours }}h {{ minutes }}min
-                    </span>
+                    <span class="reading-time"></span>
                 </p>
                 <p>Your reading speed:
-                    <span>{{ stats.readingSpeed | round(2) }}
-                        {% if (stats.readingSpeed | round(2)) == 1 %}
-                            page
-                        {% else %}
-                            pages
-                        {% endif %}
-                        /min</span>
+                    <span class="reading-speed"></span>
                 </p>
                 <p>Number of reading sessions:
-                    <span>{{ stats.sessionsCount }}</span>
+                    <span class="sessions-count"></span>
                 </p>
                 <p>Reading the same you’ll finish in:
-                    <span>
-                        {% set totalPages = book.num_of_pages %}
-                        {% set currentPage = stats.pagesReadCount %}
-                        {% set remainingPages = max(0, totalPages - currentPage) %}
-
-                        {% if stats.readingSpeed > 0 %}
-                            {% set remainingTime = ((remainingPages / stats.readingSpeed) | round()) %}
-                            {% set remainingHours = remainingTime // 60 %}
-                            {% set remainingMinutes = remainingTime % 60 %}
-
-                            {{ remainingHours }}h {{ remainingMinutes }}min
-                        {% else %}
-                            Unable to calculate remaining time (reading speed is zero)
-                        {% endif %}
-                    </span>
+                    <span class="remaining-time"></span>
                 </p>
             </div>
             <div class="history flex-column-space-around-center">
                 <h4>History of reading sessions:</h4>
-                    {% for x in reading_sessions %}
-                        {% if x is defined %}
-                            <div class="session-info flex-column-space-around-center">
-                                <div class="flex-column-space-around-center session-details">
-                                    <p>{{ x.startDate.format('Y-m-d') }}</p>
-                                    <p>{{ x.startDate.format('H:i') }} - {{ x.endDate.format('H:i') }}</p>
-
-                                    {#                                <p>{{ reading_sessions[x].startDate | split(' ')[0] }}</p>#}
-    {#                                <p>{{ reading_sessions[x].startDate | split(' ')[1][:5] }} - {{ reading_sessions[x].endDate | split(' ')[1][:5] }}</p>#}
-                                </div>
-                                <div class="flex-column-space-around-center session-details">
-                                    <p class="dark">{{ (x.duration / 60) | round(0) }} minutes</p>
-                                    <p class="dark">{{ x.pagesRead }} pages</p>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-
                 <button class="small-btn">See history</button>
             </div>
 
             <div class="history flex-column-space-around-center hide history-popup">
                 <h4>History of reading sessions:</h4>
-                {% for reading_session in reading_sessions %}
-                    <div class="session-info flex-column-space-around-center">
-                        <div class="flex-column-space-around-center session-details">
-                            <p>{{ reading_session.startDate.format('Y-m-d') }}</p>
-                            <p>{{ reading_session.startDate.format('H:i') }} - {{ reading_session.endDate.format('H:i') }}</p>
-{#                            <p>{{ reading_session.startDate | split(' ')[0] }}</p>#}
-{#                            <p>{{ reading_session.startDate | split(' ')[1][:5] }} - {{ reading_session.endDate | split(' ')[1][:5] }}</p>#}
-                        </div>
-                        <div class="flex-column-space-around-center session-details">
-                            <p class="dark">{{ (reading_session.duration / 60) | round(0) }} minutes</p>
-                            <p class="dark">{{ reading_session.pagesRead }} pages</p>
-                        </div>
-                    </div>
-                {% endfor %}
                 <button class="small-btn">Close</button>
             </div>
         </main>

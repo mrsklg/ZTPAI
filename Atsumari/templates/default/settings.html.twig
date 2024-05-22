@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/settings.js') }}" defer></script>
+{% endblock %}
+
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
@@ -18,7 +22,7 @@
         <div class="form-container">
             <h2 class="manage-text">Manage Your Account</h2>
             <form method="POST" action={{ path('logout') }}>
-                <button class="default-btn">Delete account</button>
+                <button class="default-btn delete-btn">Delete account</button>
                 <button class="default-btn" type="submit" name="logout">Logout</button>
             </form>
         </div>

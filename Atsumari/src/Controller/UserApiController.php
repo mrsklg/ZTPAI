@@ -16,7 +16,9 @@ class UserApiController extends AbstractController
     {
         if ($request->isMethod('GET')) {
             return $this->getUsersWithoutCurrent($request, $entityManager);
-        }else {
+        } elseif ($request->isMethod('DELETE')) {
+            return $this->deleteCurrentUser($request, $entityManager);
+        } else {
             return new Response(null, Response::HTTP_METHOD_NOT_ALLOWED);
         }
     }
@@ -45,5 +47,14 @@ class UserApiController extends AbstractController
         $data['usersData'] = $usersData;
 
         return new JsonResponse($data);
+    }
+
+    #[Route('/api/delete_user', name: 'delete_user', methods: ['DELETE'])]
+    private function deleteCurrentUser(Request $request, EntityManagerInterface $entityManager)
+    {
+        $user = $this->getUser();
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return new JsonResponse("user deleted");
     }
 }

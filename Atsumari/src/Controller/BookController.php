@@ -29,8 +29,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BookController extends AbstractController
 {
     private $books;
-    private $readingSessions;
-    private $currentBook;
 
     public function __construct()
     {    }
@@ -63,11 +61,9 @@ class BookController extends AbstractController
             $bookId = null;
         }
 
-        $readingSessions = $sessionRepository->findAll();
         $userBookStats = $bookStatsRepository->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
         return $this->render('book/current_book.html.twig', [
             'book' => $currentBook,
-            'reading_sessions' => $readingSessions,
             'stats' => $userBookStats
         ]);
     }
