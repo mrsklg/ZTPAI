@@ -15,19 +15,6 @@
 
 {% block content %}
     <main class="flex-column-space-around-center">
-        {% if books %}
-            <h1>Your book collection</h1>
-            <div class="book-list flex-row-center-center">
-                {% for book in books %}
-                    <div class="collection-tile" id="{{ book.title }}">
-                        <a href="{{ path('book_details', { 'id': book.id }) }}">
-                            <img src="{{ book.coverUrl }}" alt="book cover">
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
             <h1>You don't have any books in your collection.</h1>
-        {% endif %}
     </main>
 {% endblock %}

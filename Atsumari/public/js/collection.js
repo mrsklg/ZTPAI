@@ -9,7 +9,7 @@ async function fetchBooksAndUpdateView() {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to fetch books');
+            document.querySelector('main').innerHTML = '<h1>You don\'t have any books in your collection.</h1>';
         }
 
         const data = await response.json();
@@ -35,11 +35,19 @@ async function fetchBooksAndUpdateView() {
             const bookId = book.id;
             bookLink.href = `/books/${bookId}`;
 
-            const bookImage = document.createElement('img');
-            bookImage.src = book.coverUrl;
-            bookImage.alt = 'book cover';
+            if (book.coverUrl) {
+                const bookImage = document.createElement('img');
+                bookImage.src = book.coverUrl;
+                bookImage.alt = 'book cover';
+                bookLink.appendChild(bookImage);
+            } else {
+                const par = document.createElement('h2');
+                par.textContent = book.title;
+                bookLink.appendChild(par);
+                bookTile.classList.toggle('no-cover');
+                bookTile.classList.toggle('flex-row-center-center')
+            }
 
-            bookLink.appendChild(bookImage);
             bookTile.appendChild(bookLink);
             bookListContainer.appendChild(bookTile);
         });

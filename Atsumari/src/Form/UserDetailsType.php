@@ -20,7 +20,6 @@ class UserDetailsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Konfigurujemy klasę encji na UserDetails
             'data_class' => 'App\Entity\UserDetails',
         ]);
     }

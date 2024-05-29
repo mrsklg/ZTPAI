@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
 use App\Repository\BookRepository;
 use App\Repository\UserBookStatsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

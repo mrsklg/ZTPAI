@@ -15,18 +15,6 @@ class SessionController extends AbstractController
     #[isGranted('ROLE_USER')]
     public function readingSession(BookRepository $bookRepository, UserBookStatsRepository $bookStatsRepository): Response
     {
-        $userId = $this->getUser()->getId();
-        $currentBook = $bookRepository->getCurrentBookForUser($userId);
-        if ($currentBook) {
-            $bookId = $currentBook['id'];
-        } else {
-            $bookId = null;
-        }
-
-        $userBookStats = $bookStatsRepository->findOneBy(['user_id' => $userId, 'book_id' => $bookId]);
-        return $this->render('session/reading_session.html.twig', [
-//            'pagesRead' => $userBookStats->getPagesReadCount(),
-//            'book' => $currentBook
-        ]);
+        return $this->render('session/reading_session.html.twig');
     }
 }

@@ -6,7 +6,6 @@ use App\Entity\Book;
 use App\Entity\Author;
 use App\Entity\Genre;
 use App\Entity\User;
-use App\Entity\UserBookStats;
 use App\Repository\BookRepository;
 use App\Repository\ReadingSessionRepository;
 use App\Repository\UserBookStatsRepository;
@@ -16,10 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\BookType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -28,18 +23,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[AsController]
 class BookController extends AbstractController
 {
-    private $books;
-
-    public function __construct()
-    {    }
-
     #[Route('/books', name: 'collection')]
     #[IsGranted('ROLE_USER')]
     public function collection(): Response
     {
-        return $this->render('book/collection.html.twig', [
-            'books' => $this->books
-        ]);
+        return $this->render('book/collection.html.twig');
     }
 
     #[Route('/books/{id}', name: 'book_details')]

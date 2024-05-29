@@ -2,10 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Author;
 use App\Entity\Book;
-use App\Entity\Genre;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -32,13 +29,6 @@ class BookType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
-//            ->add('authors', CollectionType::class, [
-//                'entry_type' => AuthorType::class,
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'by_reference' => false,
-//                'label' => 'Authors'
-//            ])
             ->add('authors', CollectionType::class, [
                 'entry_type' => AuthorType::class,
                 'entry_options' => [
@@ -47,7 +37,6 @@ class BookType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-//                'label' => 'Authors',
                 'attr' => ['class' => 'authors-collection'],
             ])
             ->add('genres', CollectionType::class, [
@@ -58,16 +47,8 @@ class BookType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-//                'label' => 'Genres',
                 'attr' => ['class' => 'genres-collection'],
             ]);
-//            ->add('genres', CollectionType::class, [
-//                'entry_type' => GenreType::class,
-//                'allow_add' => true,
-//                'allow_delete' => true,
-//                'by_reference' => false,
-//                'label' => 'Genres'
-//            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

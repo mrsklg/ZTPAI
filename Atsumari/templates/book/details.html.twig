@@ -20,28 +20,23 @@
         <h1>Book details</h1>
         <div class="book-details flex-column-space-around-center">
             <div class="bookcover flex-row-center-center">
-{#                <img src="{{ book.coverUrl }}" class="cover-img" alt="">#}
                 <img src="" class="cover-img" alt="">
             </div>
             <div class="flex-column-space-around-center details-container">
                 <div>
                     <p>Title:</p>
-{#                    <p id="title" class="details-text">{{ book.title }}</p>#}
                     <p id="title" class="details-text"></p>
                 </div>
                 <div>
                     <p>Author:</p>
-{#                    <p id="author" class="details-text">{{ book.author }}</p>#}
                     <p id="author" class="details-text"></p>
                 </div>
                 <div>
                     <p>Pages:</p>
-{#                    <p id="num-of-pages" class="details-text">{{ book.numOfPages }}</p>#}
                     <p id="num-of-pages" class="details-text"></p>
                 </div>
                 <div>
                     <p>Genre:</p>
-{#                    <p id="genre" class="details-text">{{ book.genre }}</p>#}
                     <p id="genre" class="details-text"></p>
                 </div>
             </div>
@@ -50,15 +45,5 @@
         <a href="#" class="popup-light-btn" id="continue-reading">Continue Reading</a>
         <a href="{{ path('collection') }}" class="popup-cancel-btn light" id="close-popup">Close</a>
         <button class="popup-cancel-btn light" id="delete-btn">Delete Book</button>
-{#        {% if isCurrentBook %}#}
-{#            <a href="{{ path('reading_session', { 'id': book.id }) }}" class="popup-light-btn">Continue Reading</a>#}
-{#            <a href="{{ path('collection') }}" class="popup-cancel-btn light">Close</a>#}
-{#        {% elseif existsCurrentBook %}#}
-{#            <a href="{{ path('collection') }}" class="popup-light-btn">Close</a>#}
-{#        {% else %}#}
-{#            <a href="{{ path('reading_session', { 'id': book.id }) }}" class="popup-light-btn">Start Reading</a>#}
-{#            <a href="{{ path('collection') }}" class="popup-cancel-btn light">Close</a>#}
-{#        {% endif %}#}
-{#        <button class="popup-cancel-btn light" id="delete-btn" data-id="{{ book.id }}">Delete Book</button>#}
     </div>
 {% endblock %}

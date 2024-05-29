@@ -4,11 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\ReadingSession;
-use App\Entity\User;
-use App\Entity\UserBookStats;
 use App\Repository\BookRepository;
 use App\Repository\ReadingSessionRepository;
-use App\Repository\UserBookStatsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -89,7 +86,6 @@ class SessionApiController extends AbstractController
         $userId = $this->getUser()->getId();
         $book = $bookRepository->getCurrentBookForUser($userId);
         $bookId = $book['id'];
-
 
         $readingSessions = $sessionRepository->findBy(['user_id' => $userId, 'book_id' => $bookId]);
 

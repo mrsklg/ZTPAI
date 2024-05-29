@@ -9,9 +9,7 @@ async function getGeneralStats() {
         }
     });
 
-
     const data = await response.json();
-    console.log(data);
 
     readingSpeedGen.textContent = Number(data['avg_reading_speed']).toFixed(2);
     booksCountGen.textContent = data['total_books'];
@@ -53,14 +51,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     Chart.defaults.borderColor = '#FFF8E1';
     Chart.defaults.color = '#FFF8E1';
 
-    const books = [1,2,6,1,8]
-    // const years = ['2020', '2021', '2022', '2023', '2024']
 
     const allTimeData = {
         labels: years,
         datasets: [{
             label: 'Books Read',
-            data: booksByYear, // Example data
+            data: booksByYear,
             backgroundColor: '#a23e48',
         }]
     };

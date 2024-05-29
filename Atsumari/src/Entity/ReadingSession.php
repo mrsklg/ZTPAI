@@ -3,11 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use App\Controller\BookApiController;
 use App\Controller\SessionApiController;
 use App\Repository\ReadingSessionRepository;
 use Doctrine\DBAL\Types\Types;

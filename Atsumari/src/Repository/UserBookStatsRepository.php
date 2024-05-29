@@ -54,13 +54,6 @@ class UserBookStatsRepository extends ServiceEntityRepository
 
     public function findUserReadingStats(int $userId): array
     {
-//        return $this->createQueryBuilder('ubs')
-//            ->select('COUNT(ubs.id) AS total_books', 'AVG(ubs.reading_speed) AS avg_reading_speed')
-//            ->andWhere('ubs.user_id = :user')
-//            ->setParameter('user', $userId)
-//            ->getQuery()
-//            ->getSingleResult();
-
         $totalBooksQuery = $this->createQueryBuilder('ubs')
             ->select('COUNT(ubs.id) AS total_books')
             ->innerJoin('ubs.book_id', 'b')

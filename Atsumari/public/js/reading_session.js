@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         const data = await res.json();
-        console.log(data)
         if (data.cover_url && data.pages_read_count) {
             coverImg.src = data.cover_url;
             pagesRead.textContent = data.pages_read_count;
@@ -102,8 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
             duration: duration,
             start_date: startDate
         };
-
-        console.log(JSON.stringify(data))
 
         try {
             const response = await fetch(`/api/reading_session?bookId=${bookId}`, {

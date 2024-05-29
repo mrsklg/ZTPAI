@@ -19,19 +19,9 @@
             <h1>Are you ready for a new adventure?</h1>
             <a href="{{ path('current_book') }}" class="current-book">
                 <div class="dashboard-tile">
-                    <img src=
-                         {% if bookCover is not null %}
-                                {{ bookCover }}
-                            {% else %}
-                         "https://images.pexels.com/photos/6373289/pexels-photo-6373289.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                            {% endif %}
-                    >
+                    <img src="https://images.pexels.com/photos/6373289/pexels-photo-6373289.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
                     <h2>
-                        {% if bookTitle is not null %}
-                            You're reading {{ bookTitle }}
-                        {% else %}
-                            Currently, you are not reading any book
-                        {% endif %}
+                        Currently, you are not reading any book
                     </h2>
                 </div>
             </a>

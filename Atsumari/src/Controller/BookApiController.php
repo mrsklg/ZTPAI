@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Author;
 use App\Entity\Book;
-use App\Entity\Genre;
 use App\Entity\ReadingSession;
 use App\Entity\User;
 use App\Entity\UserBookStats;

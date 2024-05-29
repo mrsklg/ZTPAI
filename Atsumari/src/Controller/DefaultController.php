@@ -2,33 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Author;
-use App\Repository\AuthorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class DefaultController extends AbstractController {
     #[Route('/dashboard', name: 'dashboard')]
     #[IsGranted('ROLE_USER')]
-    public function dashboard(SerializerInterface $serializer): Response
+    public function dashboard(): Response
     {
-        return $this->render('default/dashboard.html.twig', [
-            'bookCover' => null,
-            'bookTitle' => null,
-            'user' => $serializer->serialize($this->getUser()->getId(), 'jsonld')
-        ]);
+        return $this->render('default/dashboard.html.twig');
     }
 
     #[Route('', name: 'start_page')]
     public function index(): Response
     {
-        return $this->render('default/index.html.twig', [
-        ]);
+        return $this->render('default/index.html.twig');
     }
 
     #[Route('/stats', name: 'stats')]

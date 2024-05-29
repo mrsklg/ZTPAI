@@ -24,6 +24,16 @@ h1 {
     width: 100%;
 }
 
+.no-cover {
+    background: #FF8C42;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: inherit;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
 .fa-box {
     color: #121212;
 }

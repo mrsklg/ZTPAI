@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     const data = await res.json();
 
-    console.log(data)
     if (data.title) {
         const image = currentBookDiv.querySelector('img')
         const heading = currentBookDiv.querySelector('h2')

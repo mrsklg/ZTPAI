@@ -237,7 +237,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeReadingSession(ReadingSession $readingSession): static
     {
         if ($this->readingSessions->removeElement($readingSession)) {
-            // set the owning side to null (unless already changed)
             if ($readingSession->getUserId() === $this) {
                 $readingSession->setUserId(null);
             }
@@ -291,7 +290,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeUserBookStat(UserBookStats $userBookStat): static
     {
         if ($this->userBookStats->removeElement($userBookStat)) {
-            // set the owning side to null (unless already changed)
             if ($userBookStat->getUserId() === $this) {
                 $userBookStat->setUserId(null);
             }
