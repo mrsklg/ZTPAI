@@ -32,9 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         const data = await res.json();
-        if (data.cover_url && data.totalPagesRead) {
+        console.log(data)
+        if (data.cover_url && data.pages_read_count) {
             coverImg.src = data.cover_url;
-            pagesRead.textContent = data.totalPagesRead;
+            pagesRead.textContent = data.pages_read_count;
         } else {
             const res = await fetch(`http://127.0.0.1:8000/api/books/${bookId}`, {
                 method: 'GET',

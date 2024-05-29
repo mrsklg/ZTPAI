@@ -27,6 +27,8 @@ const getCurrentBook = async () => {
     });
     const data = await res.json();
 
+    console.log(data)
+
     const resStats = await fetch(`http://127.0.0.1:8000/api/user_book_stats`, {
         method: 'GET',
         headers: {
@@ -35,12 +37,13 @@ const getCurrentBook = async () => {
         }
     });
     const dataStats = await resStats.json();
+    console.log(data['id'])
 
     document.querySelector('h1').textContent = `You are currently reading: ${data['title']}`
     document.querySelector('.cover-img').src = data['cover_url'];
-    document.querySelector('.progress-bar').style.width = `${Math.round((data['totalPagesRead']/data['num_of_pages']) * 100)}%`;
-    document.querySelector('.progress-data-percentage').textContent = `${Math.round((data['totalPagesRead']/data['num_of_pages']) * 100)}%`;
-    document.querySelector('.progress-data-numbers').textContent = `${data['totalPagesRead']}/${data['num_of_pages']}`;
+    document.querySelector('.progress-bar').style.width = `${Math.round((dataStats['pagesReadCount']/data['num_of_pages']) * 100)}%`;
+    document.querySelector('.progress-data-percentage').textContent = `${Math.round((dataStats['pagesReadCount']/data['num_of_pages']) * 100)}%`;
+    document.querySelector('.progress-data-numbers').textContent = `${dataStats['pagesReadCount']}/${data['num_of_pages']}`;
     document.querySelector('.reading-progess > a').href = `/reading_session?id=${data['id']}`;
 
     const readingSpeed = Math.round(dataStats["readingSpeed"]);
@@ -48,8 +51,9 @@ const getCurrentBook = async () => {
     document.querySelector('.reading-speed').textContent = `${readingSpeed} ${readingSpeed === 1 ? 'page' : 'pages'}/min`;
     document.querySelector('.sessions-count').textContent = dataStats["sessionsCount"];
 
-    const remainingPages = Math.max(0, data['num_of_pages'] - data['totalPagesRead']);
+    const remainingPages = Math.max(0, data['num_of_pages'] - dataStats['pagesReadCount']);
     const remainingTime = Math.round(remainingPages / dataStats["readingSpeed"]);
+    console.log(data['num_of_pages'], dataStats['pagesReadCount'])
     document.querySelector('.remaining-time').textContent = `${Math.floor(remainingTime / 60)}h ${remainingTime % 60}min`
 }
 

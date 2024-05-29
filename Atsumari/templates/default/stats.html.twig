@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="{{ asset('css/stats.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/stats.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
@@ -16,21 +21,21 @@
             <div class="chart-container all-time flex-column-space-around-center">
                 <h3>All time</h3>
                 <div class="chart">
-                    All time chart
+                    <canvas id="allTimeChart"></canvas>
                 </div>
             </div>
             <div class="chart-container last-year flex-column-space-around-center">
                 <h3>Last year</h3>
                 <div class="chart">
-                    Last year chart
+                    <canvas id="lastYearChart"></canvas>
                 </div>
             </div>
             <div class="stats-general flex-row-center-center">
                 <div class="flex-column-space-around-center">
-                    <p>Your reading speed <span>1</span> page/min</p>
+                    <p>Your reading speed <span id="reading-speed-gen">1</span> page/min</p>
                 </div>
                 <div class="flex-column-space-around-center">
-                    <p>You've read <span>2</span> books so far</p>
+                    <p>You've read <span id="books-read-gen">2</span> books so far</p>
                 </div>
             </div>
         </div>

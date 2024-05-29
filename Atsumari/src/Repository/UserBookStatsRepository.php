@@ -21,6 +21,84 @@ class UserBookStatsRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBookStats::class);
     }
 
+    public function findBooksReadPerYear(int $userId)
+    {
+        $qb = $this->createQueryBuilder('ubs')
+            ->select('EXTRACT(YEAR FROM ubs.last_session_end) as year, COUNT(ubs.id) as book_count')
+            ->innerJoin('ubs.book_id', 'b')
+            ->where('ubs.user_id = :user')
+            ->andWhere('ubs.pages_read_count >= b.num_of_pages')
+            ->setParameter('user', $userId)
+            ->groupBy('year')
+            ->orderBy('year', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findBooksReadLastYearPerMonth(int $userId)
+    {
+        $qb = $this->createQueryBuilder('ubs')
+            ->select('EXTRACT(YEAR FROM ubs.last_session_end) as year, EXTRACT(MONTH FROM ubs.last_session_end) as month, COUNT(ubs.id) as book_count')
+            ->innerJoin('ubs.book_id', 'b')
+            ->where('ubs.user_id = :user')
+            ->andWhere('ubs.pages_read_count >= b.num_of_pages')
+            ->andWhere('ubs.last_session_end >= :lastYear')
+            ->setParameter('user', $userId)
+            ->setParameter('lastYear', (new \DateTime('-1 year'))->format('Y-m-d'))
+            ->groupBy('year, month')
+            ->orderBy('year', 'ASC')
+            ->addOrderBy('month', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findUserReadingStats(int $userId): array
+    {
+//        return $this->createQueryBuilder('ubs')
+//            ->select('COUNT(ubs.id) AS total_books', 'AVG(ubs.reading_speed) AS avg_reading_speed')
+//            ->andWhere('ubs.user_id = :user')
+//            ->setParameter('user', $userId)
+//            ->getQuery()
+//            ->getSingleResult();
+
+        $totalBooksQuery = $this->createQueryBuilder('ubs')
+            ->select('COUNT(ubs.id) AS total_books')
+            ->innerJoin('ubs.book_id', 'b')
+            ->andWhere('ubs.user_id = :user')
+            ->andWhere('ubs.pages_read_count >= b.num_of_pages')
+            ->setParameter('user', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $avgReadingSpeedQuery = $this->createQueryBuilder('ubs')
+            ->select('AVG(ubs.reading_speed) AS avg_reading_speed')
+            ->andWhere('ubs.user_id = :user')
+            ->setParameter('user', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'total_books' => $totalBooksQuery,
+            'avg_reading_speed' => $avgReadingSpeedQuery
+        ];
+    }
+
+    public function isBookReadByUser(int $userId, int $bookId): bool
+    {
+        $qb = $this->createQueryBuilder('ubs')
+            ->select('COUNT(ubs.id)')
+            ->innerJoin('ubs.book_id', 'b')
+            ->where('ubs.user_id = :user')
+            ->andWhere('ubs.book_id = :book')
+            ->andWhere('ubs.pages_read_count >= b.num_of_pages')
+            ->setParameter('user', $userId)
+            ->setParameter('book', $bookId);
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+
+        return $count > 0;
+    }
+
 //    /**
 //     * @return UserBookStats[] Returns an array of UserBookStats objects
 //     */

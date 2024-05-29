@@ -32,4 +32,39 @@ class UserBookStatsApiController extends AbstractController
 
         return $this->json($stats);
     }
+
+    #[Route('/api/stats/books-read-per-year', name: 'books_read_per_year', methods: ['GET'])]
+    public function getBooksReadPerYear(Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $stats = $this->statsRepository->findBooksReadPerYear($user->getId());
+
+        return $this->json($stats);
+    }
+
+    #[Route('/api/stats/books-read-last-year', name: 'books_read_last_year', methods: ['GET'])]
+    public function getBooksReadLastYear(Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $stats = $this->statsRepository->findBooksReadLastYearPerMonth($user->getId());
+
+        return $this->json($stats);
+    }
+
+    #[Route('/api/stats/user-reading-stats', name: 'user_reading_stats', methods: ['GET'])]
+    public function getUserReadingStats(): JsonResponse
+    {
+        $user = $this->getUser();
+        $stats = $this->statsRepository->findUserReadingStats($user->getId());
+
+        return $this->json($stats);
+    }
 }

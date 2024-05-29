@@ -26,6 +26,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             authors.push(author.first_name + ' ' + author.last_name)
         }
 
+        const isReadRes = await fetch(`http://127.0.0.1:8000/api/books/is-read/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const isRead = await isReadRes.json();
+
         const currBookRes = await fetch(`http://127.0.0.1:8000/api/current_book_data`, {
             method: 'GET',
             headers: {
@@ -34,10 +44,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
         const currBook = await currBookRes.json();
-        const existCurrBook = (currBook.title && currBook.id)
+        const existCurrBook = (currBook.title !== null)
         const isCurrBook = (book.title === currBook.title)
         console.log(existCurrBook, isCurrBook)
         const bookId = book["@id"].slice(11);
+        console.log(bookId)
 
         document.getElementById('title').innerText = book.title;
         document.getElementById('author').innerText = authors.join(', ');
@@ -53,7 +64,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             continueReadingLink.remove();
             document.querySelector('#close-popup').classList.remove("popup-cancel-btn")
             document.querySelector('#close-popup').classList.add("popup-light-btn")
-        } else {
+            if (isRead) {
+                document.querySelector('#read-message').textContent = "You have already read this book";
+            }
+        } else{
             continueReadingLink.textContent = "Start reading";
             continueReadingLink.href = `/reading_session?id=${bookId}`;
         }

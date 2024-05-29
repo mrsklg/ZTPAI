@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @extends ServiceEntityRepository<Book>
@@ -23,18 +24,37 @@ class BookRepository extends ServiceEntityRepository
 
     public function getCurrentBookForUser(int $userId): ?array
     {
-        return $this->createQueryBuilder('b')
-            ->select('b.id', 'c.id', 'b.title', 'b.cover_url', 'b.num_of_pages', 'SUM(rs.pages_read) AS totalPagesRead')
-            ->leftJoin('b.users', 'u')
-            ->leftJoin('u.books', 'c')
-            ->leftJoin('c.readingSessions', 'rs', 'WITH', 'u.id = rs.user_id AND c.id = rs.book_id')
-            ->andWhere('u.id = :userId')
-            ->groupBy('b.id', 'c.id', 'b.title', 'b.num_of_pages')
-            ->having('SUM(rs.pages_read) < b.num_of_pages')
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->setMaxResults(1)
-            ->getOneOrNullResult();
+//        return $this->createQueryBuilder('b')
+//            ->select('b.id', 'c.id', 'b.title', 'b.cover_url', 'b.num_of_pages', 'rs.pages_read_count AS totalPagesRead')
+//            ->leftJoin('b.users', 'u')
+//            ->leftJoin('u.books', 'c')
+//            ->leftJoin('c.userBookStats', 'rs', 'WITH', 'u.id = rs.user_id AND c.id = rs.book_id')
+//            ->andWhere('u.id = :userId')
+//            ->groupBy('b.id', 'c.id', 'b.title', 'b.num_of_pages')
+//            ->having('rs.pages_read_count < b.num_of_pages')
+//            ->setParameter('userId', $userId)
+//            ->getQuery()
+//            ->setMaxResults(1)
+//            ->getOneOrNullResult();
+
+//        $qb = $this->createQueryBuilder('b')
+//            ->innerJoin('App\Entity\UserBookStats', 'ubs', Join::WITH, 'b.id = ubs.book_id')
+//            ->where('ubs.user_id = :user')
+//            ->andWhere('ubs.pages_read_count < b.num_of_pages')
+//            ->setParameter('user', $userId)
+//            ->setMaxResults(1);
+//
+//        return $qb->getQuery()->getOneOrNullResult();
+
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.id', 'b.title', 'b.cover_url', 'b.num_of_pages', 'ubs.pages_read_count')
+            ->innerJoin('App\Entity\UserBookStats', 'ubs', Join::WITH, 'b.id = ubs.book_id')
+            ->where('ubs.user_id = :user')
+            ->andWhere('ubs.pages_read_count < b.num_of_pages')
+            ->setParameter('user', $userId)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     //    /**

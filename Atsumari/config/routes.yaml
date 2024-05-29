@@ -6,3 +6,18 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+books_read_per_year:
+    path: /api/stats/books-read-per-year
+    controller: App\Controller\UserBookStatsApiController::getBooksReadPerYear
+    methods: [GET]
+
+books_read_last_year:
+    path: /api/stats/books-read-last-year
+    controller: App\Controller\UserBookStatsApiController::getBooksReadLastYear
+    methods: [GET]
+
+user_reading_stats:
+    path: /api/stats/user-reading-stats
+    controller: App\Controller\UserBookStatsApiController::getUserReadingStats
+    methods: [GET]

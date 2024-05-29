@@ -80,4 +80,13 @@ class BookApiController extends AbstractController
 
         return new JsonResponse(['success' => 'Książka została pomyślnie usunięta z kolekcji'], 201);
     }
+
+    #[Route('/api/books/is-read/{bookId}', name: 'is_book_read', methods: ['GET'])]
+    public function isBookRead(int $bookId, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $userId = $this->getUser()->getId();
+        $isRead = $entityManager->getRepository(UserBookStats::class)->isBookReadByUser($userId, $bookId);
+
+        return $this->json(['is_read' => $isRead]);
+    }
 }
