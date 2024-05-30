@@ -14,53 +14,8 @@
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
-{#    {% if book %}#}
-{#        <main class="flex-column-space-around-center main-grid">#}
-{#            <h1></h1>#}
-{#            <div class="book-info-container flex-row-center-center">#}
-{#                <div class="bookcover flex-row-center-center">#}
-{#                    <img src="" class="cover-img" alt="bookcover">#}
-{#                </div>#}
-{#                <div class="reading-progess flex-column-space-around-center">#}
-{#                    <h3>Your reading progress</h3>#}
-{#                    <div class="bar">#}
-{#                        <div class="progress-bar" style="border-radius: 2rem;"></div>#}
-{#                    </div>#}
-{#                    <div class="progress-data flex-row-center-center">#}
-{#                        <p class="progress-data-percentage"></p>#}
-{#                        <p class="progress-data-numbers"></p>#}
-{#                    </div>#}
-{#                    <a href="#" class="small-btn">Continue reading</a>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="reading-summary flex-column-space-around-center">#}
-{#                <p>Your reading time:#}
-{#                    <span class="reading-time"></span>#}
-{#                </p>#}
-{#                <p>Your reading speed:#}
-{#                    <span class="reading-speed"></span>#}
-{#                </p>#}
-{#                <p>Number of reading sessions:#}
-{#                    <span class="sessions-count"></span>#}
-{#                </p>#}
-{#                <p>Reading the same you’ll finish in:#}
-{#                    <span class="remaining-time"></span>#}
-{#                </p>#}
-{#            </div>#}
-{#            <div class="history flex-column-space-around-center">#}
-{#                <h4>History of reading sessions:</h4>#}
-{#                <button class="small-btn">See history</button>#}
-{#            </div>#}
-
-{#            <div class="history flex-column-space-around-center hide history-popup">#}
-{#                <h4>History of reading sessions:</h4>#}
-{#                <button class="small-btn">Close</button>#}
-{#            </div>#}
-{#        </main>#}
-{#    {% else %}#}
         <main class="flex-row-center-center no-book">
             <h1 class="no-book">You are not reading any book</h1>
             <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>
         </main>
-{#    {% endif %}#}
 {% endblock %}
