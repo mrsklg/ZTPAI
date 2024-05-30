@@ -9,6 +9,12 @@
 
 main {
     gap: 3rem;
+    width: 100%;
+}
+
+#root {
+    width: 100%;
+    display: unset;
 }
 
 .nav-avatar {
@@ -51,6 +57,11 @@ main > .history {
 }
 
 @media (min-width: 600px) {
+    .settings-main {
+        flex-direction: row;
+        height: 80vh;
+    }
+
     .manage-text {
         display: block;
     }

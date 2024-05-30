@@ -286,6 +286,12 @@ ul > li {
     list-style-type: none;
 }
 
+#root {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 @media (min-width: 600px) {
     body {
         height: 100vh;

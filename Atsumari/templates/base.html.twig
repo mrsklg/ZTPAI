@@ -22,43 +22,43 @@
 <body class="{% block body_class %}{% endblock %}">
 {% block body %}
     {% block content %} {% endblock %}
-    {% block navbar %}
-        <nav class="flex-row-center-center navbar">
-            <ul class="flex-row-center-center nav-list">
-                <li>
-                    <a href="{{ path('dashboard') }}">
-                        <i class="fa-solid fa-house fa-2x"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('current_book') }}">
-                        <i class="fa-solid fa-book fa-2x"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('collection') }}">
-                        <i class="fa-solid fa-box fa-2x"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('stats') }}">
-                        <i class="fa-solid fa-chart-column fa-2x"></i>
-                    </a>
-                </li>
-                <li>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('settings_admin') }}" class="nav-avatar">
-                            <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">
-                        </a>
-                    {% else %}
-                        <a href="{{ path('settings') }}" class="nav-avatar">
-                            <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">
-                        </a>
-                    {% endif %}
-                </li>
-            </ul>
-        </nav>
-    {% endblock %}
+{#    {% block navbar %}#}
+{#        <nav class="flex-row-center-center navbar">#}
+{#            <ul class="flex-row-center-center nav-list">#}
+{#                <li>#}
+{#                    <a href="{{ path('dashboard') }}">#}
+{#                        <i class="fa-solid fa-house fa-2x"></i>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="{{ path('current_book') }}">#}
+{#                        <i class="fa-solid fa-book fa-2x"></i>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="{{ path('collection') }}">#}
+{#                        <i class="fa-solid fa-box fa-2x"></i>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a href="{{ path('stats') }}">#}
+{#                        <i class="fa-solid fa-chart-column fa-2x"></i>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    {% if is_granted('ROLE_ADMIN') %}#}
+{#                        <a href="{{ path('settings_admin') }}" class="nav-avatar">#}
+{#                            <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">#}
+{#                        </a>#}
+{#                    {% else %}#}
+{#                        <a href="{{ path('settings') }}" class="nav-avatar">#}
+{#                            <img class="avatar-img-nav" src="{{ asset('images/avatar-img.png') }}">#}
+{#                        </a>#}
+{#                    {% endif %}#}
+{#                </li>#}
+{#            </ul>#}
+{#        </nav>#}
+{#    {% endblock %}#}
 {% endblock %}
 </body>
 </html>

@@ -1,3 +1,34 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Settings{% endblock %}#}
+
+{#{% block stylesheets %}#}
+{#    {{ parent() }}#}
+{#    <link rel="stylesheet" href="{{ asset('css/settings.css') }}">#}
+{#{% endblock %}#}
+
+{#{% block javascripts %}#}
+{#    <script src="{{ asset('js/settings.js') }}" defer></script>#}
+{#{% endblock %}#}
+
+{#{% block body_class %}flex-row-center-center body-nav{% endblock %}#}
+
+{#{% block content %}#}
+{#    <main class="flex-column-space-around-center">#}
+{#        <div class="flex-column-space-around-center images">#}
+{#            <img src="{{ asset('images/Atsumari.png') }}" alt="Atsumari logo">#}
+{#            <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings" alt="avatar image">#}
+{#        </div>#}
+{#        <div class="form-container">#}
+{#            <h2 class="manage-text">Manage Your Account</h2>#}
+{#            <form method="POST" action={{ path('logout') }}>#}
+{#                <button class="default-btn delete-btn">Delete account</button>#}
+{#                <button class="default-btn" type="submit" name="logout">Logout</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </main>#}
+{#{% endblock %}#}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Settings{% endblock %}
@@ -8,23 +39,12 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/settings.js') }}" defer></script>
+    {{ parent() }}
+{#    <script src="{{ asset('js/app.js') }}"></script> #}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
-    <main class="flex-column-space-around-center">
-        <div class="flex-column-space-around-center images">
-            <img src="{{ asset('images/Atsumari.png') }}" alt="Atsumari logo">
-            <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings" alt="avatar image">
-        </div>
-        <div class="form-container">
-            <h2 class="manage-text">Manage Your Account</h2>
-            <form method="POST" action={{ path('logout') }}>
-                <button class="default-btn delete-btn">Delete account</button>
-                <button class="default-btn" type="submit" name="logout">Logout</button>
-            </form>
-        </div>
-    </main>
+    <div id="root" data-show-nav="true" data-view="settings"></div>
 {% endblock %}
