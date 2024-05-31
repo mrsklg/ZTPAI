@@ -36,6 +36,8 @@ import Nav from './js/components/Nav';
 import Dashboard from './js/components/Dashboard';
 import Index from './js/components/Index';
 import Settings from './js/components/Settings';
+import SettingsAdmin from './js/components/SettingsAdmin';
+import Stats from './js/components/Stats';
 
 const App = ({ showNav, view }) => {
     let ContentView;
@@ -48,6 +50,12 @@ const App = ({ showNav, view }) => {
             break;
         case 'settings':
             ContentView = Settings;
+            break;
+        case 'settings_admin':
+            ContentView = SettingsAdmin;
+            break;
+        case 'stats':
+            ContentView = Stats;
             break;
         default:
             ContentView = () => <div>Not Found</div>;

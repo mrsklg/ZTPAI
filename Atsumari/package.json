@@ -25,7 +25,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "chart.js": "^4.4.3",
         "jsonwebtoken": "^9.0.2",
+        "react-chartjs-2": "^5.2.0",
         "react-router-dom": "^6.23.1"
     }
 }

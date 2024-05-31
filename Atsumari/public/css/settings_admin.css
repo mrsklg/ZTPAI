@@ -24,6 +24,11 @@
 }
 
 @media (min-width: 600px) {
+    .settings-main {
+        flex-direction: row;
+        height: 80vh;
+    }
+
     .images > img {
         width: 12rem;;
     }
