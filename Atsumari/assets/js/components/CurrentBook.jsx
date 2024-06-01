@@ -62,7 +62,7 @@ const CurrentBook = () => {
         return (
             <main className="flex-row-center-center no-book">
                 <h1 className="no-book">You are not reading any book</h1>
-                <p className="no-book">Choose a book to read from <a href="/collection">collection</a>.</p>
+                <p className="no-book">Choose a book to read from <a href="/books">collection</a>.</p>
             </main>
         );
     }

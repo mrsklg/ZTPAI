@@ -39,7 +39,8 @@ const BookDetails = () => {
 
             } catch (error) {
                 console.error('Error fetching data:', error.message);
-                setError('Error fetching data');
+                // setError('Error fetching data');
+                setCurrentBook(null)
             }
         };
 
@@ -59,11 +60,14 @@ const BookDetails = () => {
         }
     };
 
+    let existCurrBook;
     if (error) {
+        console.log(book)
+        existCurrBook = false
         return <div>{error}</div>;
     }
 
-    if (!book || currentBook === null) {
+    if (!book) {
         return <div>Loading...</div>;
     }
 
@@ -71,8 +75,8 @@ const BookDetails = () => {
     const authors = book.authors.map(author => `${author.first_name} ${author.last_name}`).join(', ');
 
     const bookId = book["@id"].slice(11);
-    const isCurrBook = book.title === currentBook.title;
-    const existCurrBook = currentBook.title !== null;
+    existCurrBook = currentBook !== null;
+    const isCurrBook = existCurrBook ? (book.title === currentBook.title) : false;
 
     const buttons = () => {
         if (isCurrBook) {

@@ -72,6 +72,7 @@ const ReadingSession = () => {
                     setCoverUrl(res.data.cover_url);
                     setPagesRead(res.data.pages_read_count);
                 } else {
+                    console.log("in else")
                     const resBook = await axios.get(`http://127.0.0.1:8000/api/books/${bookId}`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('jwt')}`
@@ -82,6 +83,13 @@ const ReadingSession = () => {
                 }
             } catch (error) {
                 console.error('Error fetching book data:', error);
+                const resBook = await axios.get(`http://127.0.0.1:8000/api/books/${bookId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+                    }
+                });
+                setCoverUrl(resBook.data.cover_url);
+                setPagesRead(0);
             }
         };
 

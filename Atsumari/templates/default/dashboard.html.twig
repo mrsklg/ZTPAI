@@ -58,7 +58,5 @@
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <div id="root" data-show-nav="true" data-view="dashboard" data-role="{{ app.user.roles[0] }}"></div>
-    {% endif %}
+    <div id="root" data-show-nav="true" data-view="dashboard" data-role="{{ app.user.roles[0] }}"></div>
 {% endblock %}

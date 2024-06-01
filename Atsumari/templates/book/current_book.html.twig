@@ -38,5 +38,5 @@
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block body %}
-    <div id="root" data-show-nav="true" data-view="current_book"></div>
+    <div id="root" data-show-nav="true" data-view="current_book" data-role="{{ app.user.roles[0] }}"></div>
 {% endblock %}

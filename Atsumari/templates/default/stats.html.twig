@@ -61,5 +61,5 @@
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
 {% block content %}
-    <div id="root" data-show-nav="true" data-view="stats"></div>
+    <div id="root" data-show-nav="true" data-view="stats" data-role="{{ app.user.roles[0] }}"></div>
 {% endblock %}
