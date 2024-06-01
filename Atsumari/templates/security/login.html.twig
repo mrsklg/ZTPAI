@@ -1,3 +1,40 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Atsumari - login{% endblock %}#}
+
+{#{% block stylesheets %}#}
+{#    {{ parent() }}#}
+{#{% endblock %}#}
+
+{#{% block javascripts %}#}
+{#    <script src="{{ asset('js/login.js') }}"></script>#}
+{#{% endblock %}#}
+
+{#{% block body_class %}flex-row-center-center{% endblock %}#}
+
+{#{% block navbar %}{% endblock %}#}
+
+{#{% block content %}#}
+{#    <main class="flex-column-space-around-center">#}
+{#        <img src="{{ asset('images/Atsumari.png') }}">#}
+{#        <div class="form-container">#}
+{#            <div class="messages">#}
+{#                {% if error %}#}
+{#                    <p>{{ error.messageKey | trans(error.messageData, 'security') }}</p>#}
+{#                {% else %}#}
+{#                    <h2>Welcome back!</h2>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#            <form class="flex-column-space-around-center" id="login-form">#}
+{#                <input type="text" name="email" placeholder="Email" required>#}
+{#                <input type="password" name="password" placeholder="Password" required>#}
+{#                <button type="submit" class="default-btn">Login</button>#}
+{#            </form>#}
+{#            <p class="comment">Create an account. <a href="{{ path('signup') }}" class="popup-cancel-btn">Sign Up</a></p>#}
+{#        </div>#}
+{#    </main>#}
+{#{% endblock %}#}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Atsumari - login{% endblock %}
@@ -7,7 +44,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/login.js') }}"></script>
+    {{ parent() }}
+{#    <script src="{{ asset('js/app.js') }}"></script> #}{# app.js zamiast login.js #}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center{% endblock %}
@@ -15,22 +53,5 @@
 {% block navbar %}{% endblock %}
 
 {% block content %}
-    <main class="flex-column-space-around-center">
-        <img src="{{ asset('images/Atsumari.png') }}">
-        <div class="form-container">
-            <div class="messages">
-                {% if error %}
-                    <p>{{ error.messageKey | trans(error.messageData, 'security') }}</p>
-                {% else %}
-                    <h2>Welcome back!</h2>
-                {% endif %}
-            </div>
-            <form class="flex-column-space-around-center" id="login-form">
-                <input type="text" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="default-btn">Login</button>
-            </form>
-            <p class="comment">Create an account. <a href="{{ path('signup') }}" class="popup-cancel-btn">Sign Up</a></p>
-        </div>
-    </main>
+    <div id="root" data-show-nav="false" data-view="login"></div>
 {% endblock %}

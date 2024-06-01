@@ -1,6 +1,29 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Current book{% endblock %}#}
+
+{#{% block stylesheets %}#}
+{#    {{ parent() }}#}
+{#    <link rel="stylesheet" href="{{ asset('css/current_book.css') }}">#}
+{#{% endblock %}#}
+
+{#{% block javascripts %}#}
+{#    <script src="{{ asset('js/current_book.js') }}"></script>#}
+{#{% endblock %}#}
+
+{#{% block body_class %}flex-row-center-center body-nav{% endblock %}#}
+
+{#{% block content %}#}
+{#        <main class="flex-row-center-center no-book">#}
+{#            <h1 class="no-book">You are not reading any book</h1>#}
+{#            <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>#}
+{#        </main>#}
+{#{% endblock %}#}
+
+{# templates/current_book.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Current book{% endblock %}
+{% block title %}Current Book{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -8,14 +31,12 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/current_book.js') }}"></script>
+    {{ parent() }}
+    {#    <script src="{{ asset('js/dashboard.js') }}"></script>#}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center body-nav{% endblock %}
 
-{% block content %}
-        <main class="flex-row-center-center no-book">
-            <h1 class="no-book">You are not reading any book</h1>
-            <p class="no-book">Choose a book to read from <a href="{{ path('collection') }}">collection</a>.</p>
-        </main>
+{% block body %}
+    <div id="root" data-show-nav="true" data-view="current_book"></div>
 {% endblock %}

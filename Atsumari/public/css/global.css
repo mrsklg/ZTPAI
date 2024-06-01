@@ -130,6 +130,7 @@ nav {
     position: fixed;
     bottom: 0;
     padding: 1.6rem;
+    z-index: 1;
 }
 
 .nav-avatar {
@@ -290,6 +291,16 @@ ul > li {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.login-main {
+    justify-content: flex-start;
+}
+
+@media (min-width: 700px) {
+    main {
+        justify-content: flex-start;
+    }
 }
 
 @media (min-width: 600px) {
