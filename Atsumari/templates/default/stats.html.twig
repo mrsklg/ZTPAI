@@ -1,48 +1,3 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Statistics{% endblock %}#}
-
-{#{% block stylesheets %}#}
-{#    {{ parent() }}#}
-{#    <link rel="stylesheet" href="{{ asset('css/stats.css') }}">#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#    <script src="{{ asset('js/stats.js') }}"></script>#}
-{#    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{#{% endblock %}#}
-
-{#{% block body_class %}flex-row-center-center body-nav{% endblock %}#}
-
-{#{% block content %}#}
-{#    <main class="flex-column-space-around-center">#}
-{#        <h1>Your reading stats</h1>#}
-{#        <div class="stats-container flex-column-space-around-center">#}
-{#            <div class="chart-container all-time flex-column-space-around-center">#}
-{#                <h3>All time</h3>#}
-{#                <div class="chart">#}
-{#                    <canvas id="allTimeChart"></canvas>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="chart-container last-year flex-column-space-around-center">#}
-{#                <h3>Last year</h3>#}
-{#                <div class="chart">#}
-{#                    <canvas id="lastYearChart"></canvas>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="stats-general flex-row-center-center">#}
-{#                <div class="flex-column-space-around-center">#}
-{#                    <p>Your reading speed <span id="reading-speed-gen">0</span> page/min</p>#}
-{#                </div>#}
-{#                <div class="flex-column-space-around-center">#}
-{#                    <p>You've read <span id="books-read-gen">0</span> books so far</p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </main>#}
-{#{% endblock %}#}
-
-{# templates/stats.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Statistics{% endblock %}
@@ -54,7 +9,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    <script src="{{ asset('js/app.js') }}"></script> #}{# app.js zamiast stats.js #}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 

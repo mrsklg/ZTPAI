@@ -2,27 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ReadingSession = () => {
-    // const [timer, setTimer] = useState(null);
-    // const [startTime, setStartTime] = useState(null);
-    // const [elapsedTime, setElapsedTime] = useState(0);
     const [pagesRead, setPagesRead] = useState(0);
     const [coverUrl, setCoverUrl] = useState('');
     const [formVisible, setFormVisible] = useState(false);
     const [pageNumber, setPageNumber] = useState('');
     const bookId = new URLSearchParams(window.location.search).get('id');
 
-
     const [start, setStart] = useState(false);
     const [count, setCount] = useState(0);
     const [time, setTime] = useState("00:00:00");
-    const [timeSetting, setTimeSetting] = useState({ m: 0, s: 0 });
 
     let initTime = new Date();
 
     const showTimer = (ms) => {
-        const milliseconds = Math.floor((ms % 1000) / 10)
-            .toString()
-            .padStart(2, "0");
         const second = Math.floor((ms / 1000) % 60)
             .toString()
             .padStart(2, "0");
@@ -57,8 +49,6 @@ const ReadingSession = () => {
         }, 1);
         return () => clearInterval(id);
     }, [start]);
-
-
 
     useEffect(() => {
         const fetchCurrentBook = async () => {
@@ -95,52 +85,6 @@ const ReadingSession = () => {
 
         fetchCurrentBook();
     }, [bookId]);
-
-    // const updateTimer = () => {
-    //     const time = Date.now() - startTime + elapsedTime;
-    //     const hours = Math.floor(time / 3600000);
-    //     const minutes = Math.floor((time % 3600000) / 60000);
-    //     const seconds = Math.floor((time % 60000) / 1000);
-    //     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    // };
-
-    // const updateTimer = () => {
-    //     if (startTime === null) {
-    //         return '00:00:00';
-    //     }
-    //
-    //     const time = Date.now() - startTime + elapsedTime;
-    //     const hours = Math.floor(time / 3600000);
-    //     const minutes = Math.floor((time % 3600000) / 60000);
-    //     const seconds = Math.floor((time % 60000) / 1000);
-    //     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    // };
-
-    // const handleStart = () => {
-    //     setStartTime(Date.now());
-    //     setTimer(setInterval(() => setElapsedTime(prevTime => prevTime + 1000), 1000));
-    // };
-
-    // const handleStart = () => {
-    //     if (!timer) {
-    //         setStartTime(Date.now());
-    //         const newTimer = setInterval(() => setElapsedTime(prevTime => prevTime + 1000), 1000);
-    //         setTimer(newTimer);
-    //     }
-    // };
-
-    // const handlePause = () => {
-    //     clearInterval(timer);
-    //     console.log(elapsedTime)
-    //     setElapsedTime(elapsedTime + (Date.now() - startTime));
-    // };
-
-    // const handleStop = () => {
-    //     clearInterval(timer);
-    //     console.log(elapsedTime)
-    //     setElapsedTime(elapsedTime + (Date.now() - startTime));
-    //     setFormVisible(true);
-    // };
 
     const handleCancel = () => {
         setFormVisible(false);
@@ -191,13 +135,9 @@ const ReadingSession = () => {
                     <img src={coverUrl} className="cover-img" alt="Book cover" />
                 </div>
                 <div className="flex-column-space-around-center timer-container">
-                    {/*<div id="timer">{updateTimer()}</div>*/}
                     <div id="timer">{time}</div>
                 </div>
             </div>
-            {/*<button className="popup-light-btn" onClick={handleStart}>Start</button>*/}
-            {/*<button className="popup-light-btn" onClick={handlePause}>Pause</button>*/}
-            {/*<button className="popup-light-btn" onClick={handleStop}>Stop</button>*/}
             <button className="popup-light-btn" onClick={() => setStart(true)}>Start</button>
             <button className="popup-light-btn" onClick={() => setStart(false)}>Pause</button>
             <button className="popup-light-btn" onClick={stopSession}>Stop</button>

@@ -39,7 +39,6 @@ const BookDetails = () => {
 
             } catch (error) {
                 console.error('Error fetching data:', error.message);
-                // setError('Error fetching data');
                 setCurrentBook(null)
             }
         };
@@ -62,7 +61,6 @@ const BookDetails = () => {
 
     let existCurrBook;
     if (error) {
-        console.log(book)
         existCurrBook = false
         return <div>{error}</div>;
     }

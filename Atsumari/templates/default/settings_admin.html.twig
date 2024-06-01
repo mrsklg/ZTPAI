@@ -1,42 +1,3 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Settings{% endblock %}#}
-
-{#{% block stylesheets %}#}
-{#    {{ parent() }}#}
-{#    <link rel="stylesheet" href="{{ asset('css/settings.css') }}">#}
-{#    <link rel="stylesheet" href="{{ asset('css/settings_admin.css') }}">#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#    <script src="{{ asset('js/settings_admin.js') }}"></script>#}
-{#{% endblock %}#}
-
-{#{% block body_class %}flex-row-center-center body-nav{% endblock %}#}
-
-{#{% block content %}#}
-{#    <main class="flex-column-space-around-center">#}
-{#        <div class="basic-settings flex-column-space-around-center">#}
-{#            <div class="flex-column-space-around-center images">#}
-{#                <img class="logo" src="{{ asset('images/Atsumari.png') }}" alt="Atsumari logo">#}
-{#                <img src="{{ asset('images/avatar-img.png') }}" class="avatar-settings" alt="avatar image">#}
-{#            </div>#}
-{#            <div class="form-container">#}
-{#                <h2 class="manage-text">Manage Your Account</h2>#}
-{#                <form method="POST" action={{ path('logout') }}>#}
-{#                    <button class="default-btn del-btn" id="delete-logged-usr-btn">Delete account</button>#}
-{#                    <button class="default-btn" type="submit" name="logout">Logout</button>#}
-{#                </form>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="history flex-column-space-around-center">#}
-{#            <h4>Manage Users</h4>#}
-{#            <div class="users-container"></div>#}
-{#        </div>#}
-{#    </main>#}
-{#{% endblock %}#}
-
-{# templates/settings_admin.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Settings{% endblock %}
@@ -49,7 +10,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    <script src="{{ asset('js/app.js') }}"></script> #}{# app.js zamiast settings_admin.js #}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center body-nav{% endblock %}

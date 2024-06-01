@@ -1,24 +1,3 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Book collection{% endblock %}#}
-
-{#{% block stylesheets %}#}
-{#    {{ parent() }}#}
-{#    <link rel="stylesheet" href="{{ asset('css/collection.css') }}">#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#    <script src="{{ asset('js/collection.js') }}"></script>#}
-{#{% endblock %}#}
-
-{#{% block body_class %}flex-row-center-center body-nav{% endblock %}#}
-
-{#{% block content %}#}
-{#    <main class="flex-column-space-around-center">#}
-{#            <h1>You don't have any books in your collection.</h1>#}
-{#    </main>#}
-{#{% endblock %}#}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Book collection{% endblock %}
@@ -30,7 +9,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    <script src="{{ asset('js/app.js') }}"></script> #}{# app.js zamiast collection.js #}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center body-nav{% endblock %}

@@ -1,54 +1,3 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Reading session{% endblock %}#}
-
-{#{% block stylesheets %}#}
-{#    {{ parent() }}#}
-{#    <link rel="stylesheet" href="{{ asset('css/reading_session.css') }}">#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#    <script src="{{ asset('js/reading_session.js') }}"></script>#}
-{#{% endblock %}#}
-
-{#{% block body_class %}flex-row-center-center body-popup{% endblock %}#}
-
-{#{% block navbar %}{% endblock %}#}
-
-{#{% block content %}#}
-{#    <div class="popup flex-column-space-around-center">#}
-{#        <h1>Reading session</h1>#}
-{#        <p>You have already read: <span id="pages-read"></span> pages</p>#}
-{#        <div class="session-details flex-column-space-around-center">#}
-{#            <div class="bookcover flex-row-center-center">#}
-{#                <img src="" class="cover-img" alt="">#}
-{#            </div>#}
-{#            <div class="flex-column-space-around-center timer-container">#}
-{#                <div id="timer">#}
-{#                    00:00:00#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <button class="popup-light-btn" id="start-btn">Start</button>#}
-{#        <button class="popup-light-btn" id="pause-btn">Pause</button>#}
-{#        <button class="popup-light-btn" id="stop-btn">Stop</button>#}
-{#        <a href="{{ path('current_book') }}" class="popup-cancel-btn light">Cancel</a>#}
-{#    </div>#}
-
-{#    <div id="endSessionFormContainer" class="hide">#}
-{#        <div class="end-session-popup flex-column-space-around-center">#}
-{#            <h2>End session</h2>#}
-{#            <form id="endSessionForm" class="flex-column-space-around-center" method="post">#}
-{#                <input type="hidden" id="timerValue" name="timerValue" value="00:00:00">#}
-{#                <input type="hidden" id="endDate" name="endDate" value="date">#}
-{#                <input type="number" id="pageNumber" name="pageNumber" placeholder="Number of page you got to" required>#}
-{#                <button type="submit" class="default-btn">Save</button>#}
-{#            </form>#}
-{#            <button class="popup-cancel-btn" id="cancel-end-session">Cancel</button>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endblock %}#}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Reading session{% endblock %}
@@ -60,7 +9,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    <script src="{{ asset('js/app.js') }}"></script>  app.js zamiast reading_session.js #}
 {% endblock %}
 
 {% block body_class %}flex-row-center-center body-popup{% endblock %}
